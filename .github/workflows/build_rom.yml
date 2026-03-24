@@ -1,0 +1,65 @@
+name: Build Android Nougat for p4wifi
+
+on:
+  workflow_dispatch: # Hiermee kun je de build handmatig starten op GitHub
+
+jobs:
+  build:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Vrijmaken van schijfruimte
+        run: |
+          sudo docker image prune -a -f
+          sudo rm -rf /usr/share/dotnet /etc/mysql /usr/local/lib/android /opt/ghc
+          sudo rm -rf "/usr/local/share/boost"
+          sudo rm -rf "$AGENT_TOOLSDIRECTORY"
+
+      - name: Installeren van bouwtools
+        run: |
+          sudo apt update
+          sudo apt install -y bc build-essential zip curl libxml2-utils git-core gnupg flex bison gperf libsdl1.2-dev libesd0-dev libwxgtk3.0-gtk3-dev squashfs-tools libncurses5-dev zlib1g-dev openjdk-8-jdk libreadline-dev lib32z1-dev x11proto-core-dev libx11-dev lib32readline-dev lib32ncurses5-dev libgl1-mesa-dev g++-multilib libxml2-utils xsltproc zlib1g-dev:i386
+
+      - name: Installeren van Repo tool
+        run: |
+          mkdir -p ~/bin
+          curl https://storage.googleapis.com/git-repo-downloads/repo > ~/bin/repo
+          chmod a+x ~/bin/repo
+          export PATH=~/bin:$PATH
+
+      - name: Initialiseren van LineageOS broncode
+        run: |
+          git config --global user.email "you@example.com"
+          git config --global user.name "Your Name"
+          mkdir ~/android
+          cd ~/android
+          ~/bin/repo init -u https://github.com/LineageOS/android.git -b cm-14.1 --depth=1
+
+      - name: Toevoegen van p4wifi manifest
+        run: |
+          mkdir -p ~/android/.repo/local_manifests
+          # We kopiëren de manifest die we eerder hebben gemaakt
+          cp ${{ github.workspace }}/p4wifi_nougat_manifest.xml ~/android/.repo/local_manifests/
+
+      - name: Synchroniseren van broncode (Repo Sync)
+        run: |
+          cd ~/android
+          ~/bin/repo sync -c -j$(nproc --all) --force-sync --no-clone-bundle --no-tags
+
+      - name: Voorbereiden van de build
+        run: |
+          cd ~/android
+          source build/envsetup.sh
+          lunch lineage_p4wifi-userdebug
+
+      - name: De ROM compileren (mka bacon)
+        run: |
+          cd ~/android
+          export CCACHE_DIR=~/.ccache
+          export USE_CCACHE=1
+          mka bacon -j$(nproc --all)
+
+      - name: Uploaden van de ZIP-file
+        uses: actions/upload-artifact@v3
+        with:
+          name: LineageOS-p4wifi-Nougat
+          path: ~/android/out/target/product/p4wifi/lineage-*.zip

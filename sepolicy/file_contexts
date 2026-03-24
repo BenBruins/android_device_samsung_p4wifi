@@ -1,0 +1,11 @@
+#
+# Samsung P4WiFi SELinux File Contexts
+#
+
+/dev/tegra_.*           u:object_r:video_device:s0
+/dev/ttyS0              u:object_r:hci_attach_dev:s0
+/dev/ttyHS.*            u:object_r:hci_attach_dev:s0
+
+# Systeem bestanden
+/system/bin/setup_fs    u:object_r:setup_fs_exec:s0
+/system/bin/init.modem.rc u:object_r:rootfs:s0

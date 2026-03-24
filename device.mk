@@ -1,3 +1,4 @@
+#
 # Copyright (C) 2011 The Android Open Source Project
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -34,8 +35,23 @@ DEVICE_PACKAGE_OVERLAYS += \
 PRODUCT_COPY_FILES += \
      $(LOCAL_PATH)/gpsconfig.xml:system/etc/gpsconfig.xml
 
+# Nougat Low RAM optimalisaties (Cruciaal voor 1GB RAM)
 PRODUCT_PROPERTY_OVERRIDES += \
-    ro.carrier=wifi-only
+    ro.config.low_ram=true \
+    ro.config.max_starting_bg=2 \
+    dalvik.vm.jit.codecachesize=0 \
+    config.disable_atlas=true
 
+# Algemene eigenschappen
+PRODUCT_PROPERTY_OVERRIDES += \
+    ro.carrier=wifi-only \
+    ro.opengles.version=131072 \
+    wifi.interface=wlan0
+
+# Pakketten nodig voor Nougat
 PRODUCT_PACKAGES += \
-    init.modem.rc
+    libp3ril-apalone \
+    setup_fs
+
+# Dalvik/Heap configuratie voor tablet met 1GB RAM
+$(call inherit-product, frameworks/native/build/tablet-7in-hdpi-1024-dalvik-heap.mk)
