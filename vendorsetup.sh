@@ -1,3 +1,0 @@
-add_lunch_combo lineage_p4wifi-user
-add_lunch_combo lineage_p4wifi-userdebug
-add_lunch_combo lineage_p4wifi-eng

@@ -1,4 +1,0 @@
-type secdp_device, dev_type;
-type nvhost_device, dev_type;
-type nvhost_writable_device, dev_type;
-type knvrm_device, dev_type;

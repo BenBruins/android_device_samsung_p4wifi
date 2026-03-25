@@ -1,0 +1,2727 @@
+Index: BoardConfig.mk
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/BoardConfig.mk b/BoardConfig.mk
+deleted file mode 100644
+--- a/BoardConfig.mk	(revision 385350ee67a1c5c3bf794a688545f58817a4ebda)
++++ /dev/null	(revision 385350ee67a1c5c3bf794a688545f58817a4ebda)
+@@ -1,64 +0,0 @@
+-#
+-# Copyright (C) 2011 The Android Open-Source Project
+-#
+-# Licensed under the Apache License, Version 2.0 (the "License");
+-# you may not use this file except in compliance with the License.
+-# You may obtain a copy of the License at
+-#
+-#      http://www.apache.org/licenses/LICENSE-2.0
+-#
+-# Unless required by applicable law or agreed to in writing, software
+-# distributed under the License is distributed on an "AS IS" BASIS,
+-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+-# See the License for the specific language governing permissions and
+-# limitations under the License.
+-#
+-
+-DEVICE_PACKAGE_OVERLAYS += $(LOCAL_PATH)/overlay
+-
+-# Architectuur (Tegra 2 heeft GEEN NEON)
+-TARGET_ARCH := arm
+-TARGET_NO_BOOTLOADER := true
+-TARGET_CPU_ABI := armeabi-v7a
+-TARGET_CPU_ABI2 := armeabi
+-TARGET_ARCH_VARIANT := armv7-a
+-TARGET_CPU_VARIANT := generic
+-TARGET_BOARD_PLATFORM := tegra
+-TARGET_BOARD_PLATFORM_VARIANT := tegra2
+-
+-ARCH_ARM_HAVE_NEON := false
+-ARCH_ARM_HAVE_VFP := true
+-ARCH_ARM_HAVE_VFP_D16 := true
+-
+-# Include p4-common (Zorg dat deze repo ook aanwezig is in je broncode)
+--include device/samsung/p4-common/BoardConfigCommon.mk
+-
+-# Gebruik de non-open-source onderdelen
+--include vendor/samsung/p4wifi/BoardConfigVendor.mk
+-
+-# Partities
+-BOARD_FLASH_BLOCK_SIZE := 4096
+-BOARD_SYSTEMIMAGE_PARTITION_SIZE := 606076928
+-BOARD_CACHEIMAGE_PARTITION_SIZE := 462317159
+-BOARD_BOOTIMAGE_PARTITION_SIZE := 8388608
+-BOARD_RECOVERYIMAGE_PARTITION_SIZE := 8388608
+-
+-# Kernel (Nougat vereist een gepatchte kernel)
+-# Je zult waarschijnlijk een kernel broncode moeten gebruiken van bijv. Decatf
+-TARGET_KERNEL_SOURCE := kernel/samsung/p4
+-TARGET_KERNEL_CONFIG := p4wifi_defconfig
+-BOARD_KERNEL_PAGESIZE := 2048
+-BOARD_KERNEL_BASE := 0x10000000
+-BOARD_KERNEL_CMDLINE := video=tegrafb console=ttyS0,115200n8 usbcore.old_scheme_first=1 tegraboot=sdmmc core_edp_mv=1300 vmalloc=448M
+-
+-# Nougat vereist specifieke compiler vlaggen voor Tegra 2
+-COMMON_GLOBAL_CFLAGS += -DTEGRA2_HACKS
+-COMMON_GLOBAL_CPPFLAGS += -DTEGRA2_HACKS
+-
+-# SELinux (Noodzakelijk voor Nougat)
+-BOARD_SEPOLICY_DIRS += \
+-    device/samsung/p4wifi/sepolicy
+-
+-# Graphics
+-USE_OPENGL_RENDERER := true
+-BOARD_EGL_CFG := device/samsung/p4wifi/rootdir/etc/egl.cfg
+Index: CleanSpec.mk
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/CleanSpec.mk b/CleanSpec.mk
+deleted file mode 100644
+--- a/CleanSpec.mk	(revision 385350ee67a1c5c3bf794a688545f58817a4ebda)
++++ /dev/null	(revision 385350ee67a1c5c3bf794a688545f58817a4ebda)
+@@ -1,51 +0,0 @@
+-# Copyright (C) 2007 The Android Open Source Project
+-#
+-# Licensed under the Apache License, Version 2.0 (the "License");
+-# you may not use this file except in compliance with the License.
+-# You may obtain a copy of the License at
+-#
+-#      http://www.apache.org/licenses/LICENSE-2.0
+-#
+-# Unless required by applicable law or agreed to in writing, software
+-# distributed under the License is distributed on an "AS IS" BASIS,
+-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+-# See the License for the specific language governing permissions and
+-# limitations under the License.
+-#
+-
+-# If you don't need to do a full clean build but would like to touch
+-# a file or delete some intermediate files, add a clean step to the end
+-# of the list.  These steps will only be run once, if they haven't been
+-# run before.
+-#
+-# E.g.:
+-#     $(call add-clean-step, touch -c external/sqlite/sqlite3.h)
+-#     $(call add-clean-step, rm -rf $(PRODUCT_OUT)/obj/STATIC_LIBRARIES/libz_intermediates)
+-#
+-# Always use "touch -c" and "rm -f" or "rm -rf" to gracefully deal with
+-# files that are missing or have been moved.
+-#
+-# Use $(PRODUCT_OUT) to get to the "out/target/product/blah/" directory.
+-# Use $(OUT_DIR) to refer to the "out" directory.
+-#
+-# If you need to re-do something that's already mentioned, just copy
+-# the command and add it to the bottom of the list.  E.g., if a change
+-# that you made last week required touching a file and a change you
+-# made today requires touching the same file, just copy the old
+-# touch step and add it to the end of the list.
+-#
+-# ************************************************
+-# NEWER CLEAN STEPS MUST BE AT THE END OF THE LIST
+-# ************************************************
+-
+-# For example:
+-#$(call add-clean-step, rm -rf $(OUT_DIR)/target/common/obj/APPS/AndroidTests_intermediates)
+-#$(call add-clean-step, rm -rf $(OUT_DIR)/target/common/obj/JAVA_LIBRARIES/core_intermediates)
+-#$(call add-clean-step, find $(OUT_DIR) -type f -name "IGTalkSession*" -print0 | xargs -0 rm -f)
+-#$(call add-clean-step, rm -rf $(PRODUCT_OUT)/data/*)
+-
+-# ************************************************
+-# NEWER CLEAN STEPS MUST BE AT THE END OF THE LIST
+-# ************************************************
+-$(call add-clean-step, rm -rf $(PRODUCT_OUT)/root/default.prop)
+-$(call add-clean-step, rm -rf $(PRODUCT_OUT)/obj/APPS/Phone_intermediates)
+Index: .idea/modules.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/modules.xml b/.idea/modules.xml
+deleted file mode 100644
+--- a/.idea/modules.xml	(revision 385350ee67a1c5c3bf794a688545f58817a4ebda)
++++ /dev/null	(revision 385350ee67a1c5c3bf794a688545f58817a4ebda)
+@@ -1,8 +0,0 @@
+-<?xml version="1.0" encoding="UTF-8"?>
+-<project version="4">
+-  <component name="ProjectModuleManager">
+-    <modules>
+-      <module fileurl="file://$PROJECT_DIR$/.idea/android_device_samsung_p4wifi.iml" filepath="$PROJECT_DIR$/.idea/android_device_samsung_p4wifi.iml" />
+-    </modules>
+-  </component>
+-</project>
+\ No newline at end of file
+Index: .idea/.gitignore
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/.gitignore b/.idea/.gitignore
+deleted file mode 100644
+--- a/.idea/.gitignore	(revision 385350ee67a1c5c3bf794a688545f58817a4ebda)
++++ /dev/null	(revision 385350ee67a1c5c3bf794a688545f58817a4ebda)
+@@ -1,3 +0,0 @@
+-# Default ignored files
+-/shelf/
+-/workspace.xml
+Index: gpsconfig.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/gpsconfig.xml b/gpsconfig.xml
+deleted file mode 100644
+--- a/gpsconfig.xml	(revision 385350ee67a1c5c3bf794a688545f58817a4ebda)
++++ /dev/null	(revision 385350ee67a1c5c3bf794a688545f58817a4ebda)
+@@ -1,57 +0,0 @@
+-<?xml version="1.0" encoding="utf-8"?>
+-<glgps xmlns="http://www.glpals.com/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.glpals.com/ glconfig.xsd" >
+-  <!--HAL Confguration  -->
+-  <hal
+-          acPortName="/dev/ttyHS0"
+-          lBaudRate="115200"
+-          cLogEnabled="true"
+-          acLogDirectory="/data/gps/log/"
+-          ltoFileName="lto2.dat"
+-          enhanced-assisted="false"
+-          arp-supl-enable="true"
+-          arp-supl-cap-msb="true"
+-          arp-supl-cap-msa="true"
+-          arp-supl-cap-ecid="false"
+-          acSuplServer="supl.google.com"
+-          SuplPort="7276"
+-          arp-supl-use-apn="false"
+-          LbsSyncLtoThresholdDays="3"
+-          gpioNStdbyPath="/sys/class/sec/gps/pwr_en"
+-          gpioNResetPath="/sys/class/sec/gps/nrst"
+-          gpioDelayMs="250"
+-          acNvStoDir="/data/gps/"
+-          acLtoDir="/data/gps/"
+-          acNmeaOutName="/data/gps/nmea_out"
+-          ctrlPipe="/data/gps/glgpsctrl"
+-          arp-supl-ssl-method="SSLv3"
+-       />
+-
+-  <!-- Parameters passed to GlEngine   -->
+-  <!--gll
+-         LogPriMask="LOG_DEBUG"
+-         LogFacMask="LOG_GLLAPI | LOG_DEVIA | LOG_NMEA | LOG_RAWDATA | LOG_DEVMS | LOG_ASIC_IO | LOG_BBTEST | LOG_DEVET | LOG_MESM | LOG_DEVKF | LOG_DEVJG | LOG_DEVMR" 
+-         FrqPlan="FRQ_PLAN_10MHZ_2PPM_10MHZ_100PPB" FrqPlan="FRQ_PLAN_10MHZ_2PPM" "FRQ_PLAN_16_8MHZ_2PPM"
+-         RfType="GL_RF_PALS7" "GL_RF_BARRACUDA" "GL_RF_2075_LN22" "GL_RF_2075_BRCM" "GL_RF_PALS7_BRCM" "GL_RF_BARRACUDA_BRCM" "GL_RF_BARRACUDA_EXT_LNA"
+-         NOTE: "GL_RF_BARRACUDA_EXT_LNA" should be used for BAS
+-         LbsEnable="true" LbsLocal="true" LbsServer="bcmlbsqa1.glpals.com" LbsPort="7275" LbsSyncTimeSec = "60" LbsSyncLto="true" LbsSyncCells="true"
+-  /-->
+-
+-  <!-- NOTE: BrcmRFwildBase, BrcmRFclkDiv, anBrcmRFclkRefHz only needed for Broadcom RF front end test chips
+-            ( i.e. GL_RF_2075_BRCM and GL_RF_PALS7_BRCM ) -->
+-
+-  <gll
+-       LogPriMask="LOG_INFO"
+-       LogFacMask="LOG_GLLAPI | LOG_NMEA | LOG_RAWDATA"
+-       FrqPlan="FRQ_PLAN_26MHZ_2PPM"
+-       RfType="GL_RF_4751_DANUBE_EXT_LNA"
+-       WarmStandbyTimeout1Seconds="10"
+-       WarmStandbyTimeout2Seconds="15"
+-    >
+-  </gll>
+-
+-  <job id="Periodic">
+-      <task>
+-          <req_pos/>
+-      </task>
+-  </job>
+-</glgps>
+Index: .github/workflows/build_rom.yml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.github/workflows/build_rom.yml b/.github/workflows/build_rom.yml
+deleted file mode 100644
+--- a/.github/workflows/build_rom.yml	(revision 385350ee67a1c5c3bf794a688545f58817a4ebda)
++++ /dev/null	(revision 385350ee67a1c5c3bf794a688545f58817a4ebda)
+@@ -1,65 +0,0 @@
+-name: Build Android Nougat for p4wifi
+-
+-on:
+-  workflow_dispatch: # Hiermee kun je de build handmatig starten op GitHub
+-
+-jobs:
+-  build:
+-    runs-on: ubuntu-20.04
+-    steps:
+-      - name: Vrijmaken van schijfruimte
+-        run: |
+-          sudo docker image prune -a -f
+-          sudo rm -rf /usr/share/dotnet /etc/mysql /usr/local/lib/android /opt/ghc
+-          sudo rm -rf "/usr/local/share/boost"
+-          sudo rm -rf "$AGENT_TOOLSDIRECTORY"
+-
+-      - name: Installeren van bouwtools
+-        run: |
+-          sudo apt update
+-          sudo apt install -y bc build-essential zip curl libxml2-utils git-core gnupg flex bison gperf libsdl1.2-dev libesd0-dev libwxgtk3.0-gtk3-dev squashfs-tools libncurses5-dev zlib1g-dev openjdk-8-jdk libreadline-dev lib32z1-dev x11proto-core-dev libx11-dev lib32readline-dev lib32ncurses5-dev libgl1-mesa-dev g++-multilib libxml2-utils xsltproc zlib1g-dev:i386
+-
+-      - name: Installeren van Repo tool
+-        run: |
+-          mkdir -p ~/bin
+-          curl https://storage.googleapis.com/git-repo-downloads/repo > ~/bin/repo
+-          chmod a+x ~/bin/repo
+-          export PATH=~/bin:$PATH
+-
+-      - name: Initialiseren van LineageOS broncode
+-        run: |
+-          git config --global user.email "you@example.com"
+-          git config --global user.name "Your Name"
+-          mkdir ~/android
+-          cd ~/android
+-          ~/bin/repo init -u https://github.com/LineageOS/android.git -b cm-14.1 --depth=1
+-
+-      - name: Toevoegen van p4wifi manifest
+-        run: |
+-          mkdir -p ~/android/.repo/local_manifests
+-          # We kopiëren de manifest die we eerder hebben gemaakt
+-          cp ${{ github.workspace }}/p4wifi_nougat_manifest.xml ~/android/.repo/local_manifests/
+-
+-      - name: Synchroniseren van broncode (Repo Sync)
+-        run: |
+-          cd ~/android
+-          ~/bin/repo sync -c -j$(nproc --all) --force-sync --no-clone-bundle --no-tags
+-
+-      - name: Voorbereiden van de build
+-        run: |
+-          cd ~/android
+-          source build/envsetup.sh
+-          lunch lineage_p4wifi-userdebug
+-
+-      - name: De ROM compileren (mka bacon)
+-        run: |
+-          cd ~/android
+-          export CCACHE_DIR=~/.ccache
+-          export USE_CCACHE=1
+-          mka bacon -j$(nproc --all)
+-
+-      - name: Uploaden van de ZIP-file
+-        uses: actions/upload-artifact@v3
+-        with:
+-          name: LineageOS-p4wifi-Nougat
+-          path: ~/android/out/target/product/p4wifi/lineage-*.zip
+Index: .idea/android_device_samsung_p4wifi.iml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/android_device_samsung_p4wifi.iml b/.idea/android_device_samsung_p4wifi.iml
+deleted file mode 100644
+--- a/.idea/android_device_samsung_p4wifi.iml	(revision 385350ee67a1c5c3bf794a688545f58817a4ebda)
++++ /dev/null	(revision 385350ee67a1c5c3bf794a688545f58817a4ebda)
+@@ -1,9 +0,0 @@
+-<?xml version="1.0" encoding="UTF-8"?>
+-<module type="JAVA_MODULE" version="4">
+-  <component name="NewModuleRootManager" inherit-compiler-output="true">
+-    <exclude-output />
+-    <content url="file://$MODULE_DIR$" />
+-    <orderEntry type="inheritedJdk" />
+-    <orderEntry type="sourceFolder" forTests="false" />
+-  </component>
+-</module>
+\ No newline at end of file
+Index: device.mk
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/device.mk b/device.mk
+deleted file mode 100644
+--- a/device.mk	(revision 385350ee67a1c5c3bf794a688545f58817a4ebda)
++++ /dev/null	(revision 385350ee67a1c5c3bf794a688545f58817a4ebda)
+@@ -1,57 +0,0 @@
+-#
+-# Copyright (C) 2011 The Android Open Source Project
+-#
+-# Licensed under the Apache License, Version 2.0 (the "License");
+-# you may not use this file except in compliance with the License.
+-# You may obtain a copy of the License at
+-#
+-#      http://www.apache.org/licenses/LICENSE-2.0
+-#
+-# Unless required by applicable law or agreed to in writing, software
+-# distributed under the License is distributed on an "AS IS" BASIS,
+-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+-# See the License for the specific language governing permissions and
+-# limitations under the License.
+-
+-# Cameradata
+-PRODUCT_COPY_FILES += \
+-    device/samsung/p4-common/camera/cameradata/back_camera_test_pattern.yuv:system/cameradata/back_camera_test_pattern.yuv \
+-    device/samsung/p4-common/camera/cameradata/datapattern_420sp.yuv:system/cameradata/datapattern_420sp.yuv \
+-    device/samsung/p4-common/camera/cameradata/datapattern_front_420sp.yuv:system/cameradata/datapattern_front_420sp.yuv \
+-    device/samsung/p4-common/camera/cameradata/front_camera_test_pattern.yuv:system/cameradata/front_camera_test_pattern.yuv
+-
+-# Hdmi
+-PRODUCT_COPY_FILES += \
+-    device/samsung/p4-common/hdmi/dectable1.dat:system/etc/hdmi/dectable1.dat \
+-    device/samsung/p4-common/hdmi/dectable.dat:system/etc/hdmi/dectable.dat
+-
+-# Wifi mfg
+-PRODUCT_COPY_FILES += \
+-    device/samsung/p4-common/wifi/bcmdhd_mfg.bin:system/etc/wifi/bcmdhd_mfg.bin
+-
+-DEVICE_PACKAGE_OVERLAYS += \
+-    $(LOCAL_PATH)/overlay
+-
+-PRODUCT_COPY_FILES += \
+-     $(LOCAL_PATH)/gpsconfig.xml:system/etc/gpsconfig.xml
+-
+-# Nougat Low RAM optimalisaties (Cruciaal voor 1GB RAM)
+-PRODUCT_PROPERTY_OVERRIDES += \
+-    ro.config.low_ram=true \
+-    ro.config.max_starting_bg=2 \
+-    dalvik.vm.jit.codecachesize=0 \
+-    config.disable_atlas=true
+-
+-# Algemene eigenschappen
+-PRODUCT_PROPERTY_OVERRIDES += \
+-    ro.carrier=wifi-only \
+-    ro.opengles.version=131072 \
+-    wifi.interface=wlan0
+-
+-# Pakketten nodig voor Nougat
+-PRODUCT_PACKAGES += \
+-    libp3ril-apalone \
+-    setup_fs
+-
+-# Dalvik/Heap configuratie voor tablet met 1GB RAM
+-$(call inherit-product, frameworks/native/build/tablet-7in-hdpi-1024-dalvik-heap.mk)
+Index: sepolicy/device.te
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/sepolicy/device.te b/sepolicy/device.te
+deleted file mode 100644
+--- a/sepolicy/device.te	(revision 385350ee67a1c5c3bf794a688545f58817a4ebda)
++++ /dev/null	(revision 385350ee67a1c5c3bf794a688545f58817a4ebda)
+@@ -1,4 +0,0 @@
+-type secdp_device, dev_type;
+-type nvhost_device, dev_type;
+-type nvhost_writable_device, dev_type;
+-type knvrm_device, dev_type;
+Index: setup-makefiles.sh
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/setup-makefiles.sh b/setup-makefiles.sh
+deleted file mode 100644
+--- a/setup-makefiles.sh	(revision 385350ee67a1c5c3bf794a688545f58817a4ebda)
++++ /dev/null	(revision 385350ee67a1c5c3bf794a688545f58817a4ebda)
+@@ -1,82 +0,0 @@
+-#!/bin/sh
+-
+-VENDOR=samsung
+-DEVICE=p4wifi
+-OUTDIR=vendor/$VENDOR/$DEVICE
+-MAKEFILE=../../../$OUTDIR/$DEVICE-vendor-blobs.mk
+-
+-(cat << EOF) > $MAKEFILE
+-# Copyright (C) 2011 The CyanogenMod Project
+-#
+-# Licensed under the Apache License, Version 2.0 (the "License");
+-# you may not use this file except in compliance with the License.
+-# You may obtain a copy of the License at
+-#
+-#      http://www.apache.org/licenses/LICENSE-2.0
+-#
+-# Unless required by applicable law or agreed to in writing, software
+-# distributed under the License is distributed on an "AS IS" BASIS,
+-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+-# See the License for the specific language governing permissions and
+-# limitations under the License.
+-
+-# This file is generated by device/$VENDOR/$DEVICE/setup-makefiles.sh
+-
+-# Prebuilt libraries that are needed to build open-source libraries
+-
+-PRODUCT_COPY_FILES := \\
+-EOF
+-
+-LINEEND=" \\"
+-COUNT=`wc -l proprietary-files.txt | awk {'print $1'}`
+-for FILE in `cat proprietary-files.txt`; do
+-    COUNT=`expr $COUNT - 1`
+-    if [ $COUNT = "0" ]; then
+-        LINEEND=""
+-    fi
+-    echo "    $OUTDIR/proprietary/$FILE:system/$FILE$LINEEND" >> $MAKEFILE
+-done
+-
+-(cat << EOF) > ../../../$OUTDIR/$DEVICE-vendor.mk
+-# Copyright (C) 2011 The CyanogenMod Project
+-#
+-# Licensed under the Apache License, Version 2.0 (the "License");
+-# you may not use this file except in compliance with the License.
+-# You may obtain a copy of the License at
+-#
+-#      http://www.apache.org/licenses/LICENSE-2.0
+-#
+-# Unless required by applicable law or agreed to in writing, software
+-# distributed under the License is distributed on an "AS IS" BASIS,
+-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+-# See the License for the specific language governing permissions and
+-# limitations under the License.
+-
+-# This file is generated by device/$VENDOR/$DEVICE/setup-makefiles.sh
+-
+-# Pick up overlay for features that depend on non-open-source files
+-DEVICE_PACKAGE_OVERLAYS := vendor/$VENDOR/$DEVICE/overlay
+-
+-\$(call inherit-product, vendor/$VENDOR/$DEVICE/$DEVICE-vendor-blobs.mk)
+-EOF
+-
+-(cat << EOF) > ../../../$OUTDIR/BoardConfigVendor.mk
+-# Copyright (C) 2011 The CyanogenMod Project
+-#
+-# Licensed under the Apache License, Version 2.0 (the "License");
+-# you may not use this file except in compliance with the License.
+-# You may obtain a copy of the License at
+-#
+-#      http://www.apache.org/licenses/LICENSE-2.0
+-#
+-# Unless required by applicable law or agreed to in writing, software
+-# distributed under the License is distributed on an "AS IS" BASIS,
+-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+-# See the License for the specific language governing permissions and
+-# limitations under the License.
+-
+-# This file is generated by device/$VENDOR/$DEVICE/setup-makefiles.sh
+-
+-USE_CAMERA_STUB := false
+-EOF
+-
+Index: sepolicy/file.te
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/sepolicy/file.te b/sepolicy/file.te
+deleted file mode 100644
+--- a/sepolicy/file.te	(revision 385350ee67a1c5c3bf794a688545f58817a4ebda)
++++ /dev/null	(revision 385350ee67a1c5c3bf794a688545f58817a4ebda)
+@@ -1,4 +0,0 @@
+-type sysfs_tegra_edp, fs_type, sysfs_type;
+-type sysfs_tegra_fb, fs_type, sysfs_type;
+-type sysfs_wifi_nvram, fs_type, sysfs_type;
+-type setup_fs_exec, exec_type, file_type;
+Index: sepolicy/file_contexts
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/sepolicy/file_contexts b/sepolicy/file_contexts
+deleted file mode 100644
+--- a/sepolicy/file_contexts	(revision 385350ee67a1c5c3bf794a688545f58817a4ebda)
++++ /dev/null	(revision 385350ee67a1c5c3bf794a688545f58817a4ebda)
+@@ -1,11 +0,0 @@
+-#
+-# Samsung P4WiFi SELinux File Contexts
+-#
+-
+-/dev/tegra_.*           u:object_r:video_device:s0
+-/dev/ttyS0              u:object_r:hci_attach_dev:s0
+-/dev/ttyHS.*            u:object_r:hci_attach_dev:s0
+-
+-# Systeem bestanden
+-/system/bin/setup_fs    u:object_r:setup_fs_exec:s0
+-/system/bin/init.modem.rc u:object_r:rootfs:s0
+Index: overlay/packages/apps/Torch/res/values/config.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/overlay/packages/apps/Torch/res/values/config.xml b/overlay/packages/apps/Torch/res/values/config.xml
+deleted file mode 100644
+--- a/overlay/packages/apps/Torch/res/values/config.xml	(revision 385350ee67a1c5c3bf794a688545f58817a4ebda)
++++ /dev/null	(revision 385350ee67a1c5c3bf794a688545f58817a4ebda)
+@@ -1,36 +0,0 @@
+-<?xml version="1.0" encoding="utf-8"?>
+-<!--
+-/*
+-** Copyright 2011, The CyanogenMod Project
+-**
+-** Licensed under the Apache License, Version 2.0 (the "License");
+-** you may not use this file except in compliance with the License.
+-** You may obtain a copy of the License at
+-**
+-**     http://www.apache.org/licenses/LICENSE-2.0
+-**
+-** Unless required by applicable law or agreed to in writing, software
+-** distributed under the License is distributed on an "AS IS" BASIS,
+-** WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+-** See the License for the specific language governing permissions and
+-** limitations under the License.
+-*/
+--->
+-
+-<!-- These resources are around just to allow their values to be customized
+-     for different hardware and product builds. -->
+-<resources>
+-    <!-- If there is no sysfs-based control mechanism, enable this -->
+-    <bool name="useCameraInterface">false</bool>
+-
+-    <!-- Full path to the sysfs toggle -->
+-    <string name="flashDevice">/sys/devices/virtual/sec/sec_s5k5ccgx/cameraflash</string>
+-
+-    <!-- Lowest setting -->
+-    <integer name="valueOn">1</integer>
+-    <!-- Middle setting -->
+-    <integer name="valueHigh">42</integer>
+-    <!-- Highest setting, leave -1 if it doesn't exist -->
+-    <integer name="valueDeathRay">-1</integer>
+-
+-</resources>
+Index: rootdir/Android.mk
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/rootdir/Android.mk b/rootdir/Android.mk
+deleted file mode 100644
+--- a/rootdir/Android.mk	(revision 385350ee67a1c5c3bf794a688545f58817a4ebda)
++++ /dev/null	(revision 385350ee67a1c5c3bf794a688545f58817a4ebda)
+@@ -1,9 +0,0 @@
+-LOCAL_PATH := $(call my-dir)
+-
+-include $(CLEAR_VARS)
+-LOCAL_MODULE		:= init.modem.rc
+-LOCAL_MODULE_TAGS	:= optional eng
+-LOCAL_MODULE_CLASS	:= BOOT
+-LOCAL_SRC_FILES		:= etc/init.modem.rc
+-LOCAL_MODULE_PATH	:= $(TARGET_ROOT_OUT)
+-include $(BUILD_PREBUILT)
+Index: .idea/misc.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/misc.xml b/.idea/misc.xml
+deleted file mode 100644
+--- a/.idea/misc.xml	(revision 385350ee67a1c5c3bf794a688545f58817a4ebda)
++++ /dev/null	(revision 385350ee67a1c5c3bf794a688545f58817a4ebda)
+@@ -1,5 +0,0 @@
+-<project version="4">
+-  <component name="ProjectRootManager" version="2" languageLevel="JDK_21" default="true" project-jdk-name="jbr-21" project-jdk-type="JavaSDK">
+-    <output url="file://$PROJECT_DIR$/out" />
+-  </component>
+-</project>
+\ No newline at end of file
+Index: lineage_p4wifi.mk
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/lineage_p4wifi.mk b/lineage_p4wifi.mk
+deleted file mode 100644
+--- a/lineage_p4wifi.mk	(revision 385350ee67a1c5c3bf794a688545f58817a4ebda)
++++ /dev/null	(revision 385350ee67a1c5c3bf794a688545f58817a4ebda)
+@@ -1,23 +0,0 @@
+-# Inherit from those products. Most specific first.
+-$(call inherit-product, $(SRC_TARGET_DIR)/product/full_base_telephony.mk)
+-
+-# Inherit from p4wifi device configuration
+-$(call inherit-product, device/samsung/p4wifi/p4wifi.mk)
+-
+-# Inherit some common Lineage stuff.
+-$(call inherit-product, vendor/lineage/config/common_full_tablet_wifionly.mk)
+-
+-PRODUCT_NAME := lineage_p4wifi
+-PRODUCT_DEVICE := p4wifi
+-PRODUCT_BRAND := Samsung
+-PRODUCT_MODEL := GT-P7510
+-PRODUCT_MANUFACTURER := Samsung
+-
+-PRODUCT_GMS_CLIENTID_BASE := android-samsung
+-
+-# Build fingerprint
+-PRODUCT_BUILD_PROP_OVERRIDES += \
+-    PRODUCT_NAME=p4wifi \
+-    TARGET_DEVICE=p4wifi \
+-    BUILD_FINGERPRINT="samsung/p4wifi/p4wifi:4.0.4/IMM76D/UELPL:user/release-keys" \
+-    PRIVATE_BUILD_DESC="p4wifi-user 4.0.4 IMM76D UELPL release-keys"
+Index: .idea/vcs.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/vcs.xml b/.idea/vcs.xml
+deleted file mode 100644
+--- a/.idea/vcs.xml	(revision 385350ee67a1c5c3bf794a688545f58817a4ebda)
++++ /dev/null	(revision 385350ee67a1c5c3bf794a688545f58817a4ebda)
+@@ -1,6 +0,0 @@
+-<?xml version="1.0" encoding="UTF-8"?>
+-<project version="4">
+-  <component name="VcsDirectoryMappings">
+-    <mapping directory="" vcs="Git" />
+-  </component>
+-</project>
+\ No newline at end of file
+Index: p4wifi_nougat_manifest.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/p4wifi_nougat_manifest.xml b/p4wifi_nougat_manifest.xml
+deleted file mode 100644
+--- a/p4wifi_nougat_manifest.xml	(revision 385350ee67a1c5c3bf794a688545f58817a4ebda)
++++ /dev/null	(revision 385350ee67a1c5c3bf794a688545f58817a4ebda)
+@@ -1,14 +0,0 @@
+-<?xml version="1.0" encoding="UTF-8"?>
+-<manifest>
+-  <!-- Device Tree (deze map) -->
+-  <project name="Decatf/android_device_samsung_p4wifi" path="device/samsung/p4wifi" remote="github" revision="nougat" />
+-
+-  <!-- Common Device Tree (Essentieel!) -->
+-  <project name="Decatf/android_device_samsung_p4-common" path="device/samsung/p4-common" remote="github" revision="nougat" />
+-
+-  <!-- Kernel (Gepatcht voor Nougat/Non-NEON) -->
+-  <project name="Decatf/android_kernel_samsung_p4" path="kernel/samsung/p4" remote="github" revision="nougat-3.1" />
+-
+-  <!-- Vendor Blobs (De binaire drivers) -->
+-  <project name="TheMuppets/proprietary_vendor_samsung" path="vendor/samsung" remote="github" revision="cm-14.1" />
+-</manifest>
+Index: README
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/README b/README
+deleted file mode 100644
+--- a/README	(revision 385350ee67a1c5c3bf794a688545f58817a4ebda)
++++ /dev/null	(revision 385350ee67a1c5c3bf794a688545f58817a4ebda)
+@@ -1,10 +0,0 @@
+-Device configuration for the Samsung Galaxy Tab 10.1
+-GT-P7510 - Google I/O Edition
+-
+-Copyright (C) 2011 The CyanogenMod Project
+-
+- Licensed under the Apache License, Version 2.0 (the "License");
+- you may not use this file except in compliance with the License.
+- You may obtain a copy of the License at
+-
+-      http://www.apache.org/licenses/LICENSE-2.0
+Index: proprietary-files.txt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/proprietary-files.txt b/proprietary-files.txt
+deleted file mode 100644
+--- a/proprietary-files.txt	(revision 385350ee67a1c5c3bf794a688545f58817a4ebda)
++++ /dev/null	(revision 385350ee67a1c5c3bf794a688545f58817a4ebda)
+@@ -1,124 +0,0 @@
+-bin/gps.cer
+-bin/gpsd
+-bin/macloader
+-bin/tegrastats
+-etc/audio/LVVEFS_Rx_Configuration.txt
+-etc/audio/LVVEFS_Tx_Configuration.txt
+-etc/audio/Rx_ControlParams_BLUETOOTH_HEADSET.txt
+-etc/audio/Rx_ControlParams_EARPIECE_WIDEBAND.txt
+-etc/audio/Rx_ControlParams_SPEAKER_WIDEBAND.txt
+-etc/audio/Rx_ControlParams_WIRED_HEADPHONE_WIDEBAND.txt
+-etc/audio/Rx_ControlParams_WIRED_HEADSET_WIDEBAND.txt
+-etc/audio/Tx_ControlParams_BLUETOOTH_HEADSET.txt
+-etc/audio/Tx_ControlParams_EARPIECE_WIDEBAND.txt
+-etc/audio/Tx_ControlParams_SPEAKER_WIDEBAND.txt
+-etc/audio/Tx_ControlParams_WIRED_HEADPHONE_WIDEBAND.txt
+-etc/audio/Tx_ControlParams_WIRED_HEADSET_WIDEBAND.txt
+-etc/firmware/bcm4330B1.hcd
+-etc/firmware/nvmm_aacdec.axf
+-etc/firmware/nvmm_adtsdec.axf
+-etc/firmware/nvmm_h264dec.axf
+-etc/firmware/nvmm_jpegdec.axf
+-etc/firmware/nvmm_jpegenc.axf
+-etc/firmware/nvmm_manager.axf
+-etc/firmware/nvmm_mp3dec.axf
+-etc/firmware/nvmm_mpeg4dec.axf
+-etc/firmware/nvmm_service.axf
+-etc/firmware/nvmm_vc1dec.axf
+-etc/firmware/nvmm_wavdec.axf
+-etc/firmware/nvmm_wmadec.axf
+-etc/firmware/nvmm_wmaprodec.axf
+-etc/firmware/nvrm_avp.bin
+-etc/wifi/nvram_net.txt
+-etc/wifi/wl
+-etc/wifi/wpa_supplicant.conf
+-lib/egl/libEGL_tegra.so
+-lib/egl/libGLESv1_CM_tegra.so
+-lib/egl/libGLESv2_tegra.so
+-lib/hw/audio.primary.tegra.so
+-lib/hw/audio_policy.tegra.so
+-lib/hw/camera.tegra.so
+-lib/hw/gps.tegra.so
+-lib/hw/gralloc.tegra.so
+-lib/hw/hwcomposer.tegra.so
+-lib/hw/lights.p3.so
+-lib/hw/sensors.p3.so
+-lib/libakm.so
+-lib/libardrv_dynamic.so
+-lib/libcgdrv.so
+-lib/liblvvefs.so
+-lib/libmllite.so
+-lib/libmlplatform.so
+-lib/libmpl.so
+-lib/libnvapputil.so
+-lib/libnvasfparserhal.so
+-lib/libnvaviparserhal.so
+-lib/libnvavp.so
+-lib/libnvcamerahdr.so
+-lib/libnvcontrol_jni.so
+-lib/libnvcpud_client.so
+-lib/libnvcpud.so
+-lib/libnvddk_2d.so
+-lib/libnvddk_2d_v2.so
+-lib/libnvmm_asfparser.so
+-lib/libnvmm_audio.so
+-lib/libnvmm_aviparser.so
+-lib/libnvmm_camera.so
+-lib/libnvmm_contentpipe.so
+-lib/libnvmm_image.so
+-lib/libnvmmlite_audio.so
+-lib/libnvmmlite.so
+-lib/libnvmmlite_utils.so
+-lib/libnvmmlite_video.so
+-lib/libnvmm_manager.so
+-lib/libnvmm_msaudio.so
+-lib/libnvmm_parser.so
+-lib/libnvmm_service.so
+-lib/libnvmm.so
+-lib/libnvmm_utils.so
+-lib/libnvmm_vc1_video.so
+-lib/libnvmm_video.so
+-lib/libnvmm_writer.so
+-lib/libnvodm_dtvtuner.so
+-lib/libnvodm_hdmi.so
+-lib/libnvodm_imager.so
+-lib/libnvodm_misc.so
+-lib/libnvodm_query.so
+-lib/libnvomxadaptor.so
+-lib/libnvomxilclient.so
+-lib/libnvomx.so
+-lib/libnvos.so
+-lib/libnvparser.so
+-lib/libnvrm_graphics.so
+-lib/libnvrm.so
+-lib/libnvsm.so
+-lib/libnvtestio.so
+-lib/libnvtestresults.so
+-lib/libnvtvmr.so
+-lib/libnvwinsys.so
+-lib/libnvwsi.so
+-lib/lib_Samsung_Resampler.so
+-lib/libsec-ril-apalone.so
+-lib/libsecril-client.so
+-lib/libstagefrighthw.so
+-lib/libwvm.so
+-lib/libWVStreamControlAPI_L3.so
+-lib/libwvdrm_L3.so
+-lib/omxplayer.so
+-usr/share/alsa/alsa.conf
+-usr/share/alsa/cards/aliases.conf
+-usr/share/alsa/pcm/center_lfe.conf
+-usr/share/alsa/pcm/default.conf
+-usr/share/alsa/pcm/dmix.conf
+-usr/share/alsa/pcm/dpl.conf
+-usr/share/alsa/pcm/dsnoop.conf
+-usr/share/alsa/pcm/front.conf
+-usr/share/alsa/pcm/iec958.conf
+-usr/share/alsa/pcm/modem.conf
+-usr/share/alsa/pcm/rear.conf
+-usr/share/alsa/pcm/side.conf
+-usr/share/alsa/pcm/surround40.conf
+-usr/share/alsa/pcm/surround41.conf
+-usr/share/alsa/pcm/surround50.conf
+-usr/share/alsa/pcm/surround51.conf
+-usr/share/alsa/pcm/surround71.conf
+Index: system.prop
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/system.prop b/system.prop
+deleted file mode 100644
+--- a/system.prop	(revision 385350ee67a1c5c3bf794a688545f58817a4ebda)
++++ /dev/null	(revision 385350ee67a1c5c3bf794a688545f58817a4ebda)
+@@ -1,31 +0,0 @@
+-#
+-# system.prop for p4wifi (Nougat optimized)
+-#
+-
+-# Graphics (Tegra 2 optimalisaties)
+-ro.opengles.version = 131072
+-ro.bq.gpu_to_cpu_unsupported = 1
+-persist.sys.force_sw_gles = 0
+-persist.sys.ui.hw = 1
+-debug.egl.hw = 1
+-debug.composition.type = dyn
+-debug.sf.no_hw_vsync = 1
+-
+-# LCD Density (Perfect voor de 10.1 inch resolutie)
+-ro.sf.lcd_density = 160
+-
+-# Low RAM optimalisaties (Essentieel voor 1GB)
+-ro.config.low_ram = true
+-persist.sys.purgeable_assets = 1
+-
+-# Wifi/Netwerk (Omdat p4wifi geen simslot heeft)
+-ro.carrier = wifi-only
+-rild.libpath = /system/lib/libsec-ril-apalone.so
+-rild.libargs = -d /dev/ttyS0
+-
+-# Audio tweaks
+-ro.config.vc_call_vol_steps = 15
+-ro.config.media_vol_steps = 30
+-
+-# Disable boot animation (Kan helpen bij traag opstarten)
+-debug.sf.nobootanimation = 0
+Index: Android.mk
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/Android.mk b/Android.mk
+deleted file mode 100644
+--- a/Android.mk	(revision 385350ee67a1c5c3bf794a688545f58817a4ebda)
++++ /dev/null	(revision 385350ee67a1c5c3bf794a688545f58817a4ebda)
+@@ -1,26 +0,0 @@
+-#
+-# Copyright (C) 2011 The Android Open-Source Project
+-#
+-# Licensed under the Apache License, Version 2.0 (the "License");
+-# you may not use this file except in compliance with the License.
+-# You may obtain a copy of the License at
+-#
+-#      http://www.apache.org/licenses/LICENSE-2.0
+-#
+-# Unless required by applicable law or agreed to in writing, software
+-# distributed under the License is distributed on an "AS IS" BASIS,
+-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+-# See the License for the specific language governing permissions and
+-# limitations under the License.
+-#
+-
+-LOCAL_PATH := $(call my-dir)
+-
+-ifeq ($(TARGET_DEVICE),p4wifi)
+-
+-include $(CLEAR_VARS)
+-
+-# Neem alle makefiles in submappen mee (zoals rootdir)
+-include $(call all-makefiles-under,$(LOCAL_PATH))
+-
+-endif
+Index: p4wifi.mk
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/p4wifi.mk b/p4wifi.mk
+deleted file mode 100644
+--- a/p4wifi.mk	(revision 385350ee67a1c5c3bf794a688545f58817a4ebda)
++++ /dev/null	(revision 385350ee67a1c5c3bf794a688545f58817a4ebda)
+@@ -1,28 +0,0 @@
+-# Copyright (C) 2011 The Android Open Source Project
+-#
+-# Licensed under the Apache License, Version 2.0 (the "License");
+-# you may not use this file except in compliance with the License.
+-# You may obtain a copy of the License at
+-#
+-#      http://www.apache.org/licenses/LICENSE-2.0
+-#
+-# Unless required by applicable law or agreed to in writing, software
+-# distributed under the License is distributed on an "AS IS" BASIS,
+-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+-# See the License for the specific language governing permissions and
+-# limitations under the License.
+-
+-$(call inherit-product, $(SRC_TARGET_DIR)/product/aosp_base.mk)
+-
+-# The gps config appropriate for this device
+-$(call inherit-product, device/common/gps/gps_us_supl.mk)
+-
+-$(call inherit-product, device/samsung/p4-common/p4-common.mk)
+-$(call inherit-product, device/samsung/p4wifi/device.mk)
+-$(call inherit-product-if-exists, vendor/samsung/p4wifi/p4wifi-vendor.mk)
+-
+-PRODUCT_NAME := p4wifi
+-PRODUCT_BRAND := Samsung
+-PRODUCT_DEVICE := p4wifi
+-PRODUCT_MODEL := GT-P7510
+-PRODUCT_MANUFACTURER := Samsung
+Index: AndroidProducts.mk
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/AndroidProducts.mk b/AndroidProducts.mk
+deleted file mode 100644
+--- a/AndroidProducts.mk	(revision 385350ee67a1c5c3bf794a688545f58817a4ebda)
++++ /dev/null	(revision 385350ee67a1c5c3bf794a688545f58817a4ebda)
+@@ -1,19 +0,0 @@
+-#
+-# Copyright (C) 2011 The Android Open-Source Project
+-#
+-# Licensed under the Apache License, Version 2.0 (the "License");
+-# you may not use this file except in compliance with the License.
+-# You may obtain a copy of the License at
+-#
+-#      http://www.apache.org/licenses/LICENSE-2.0
+-#
+-# Unless required by applicable law or agreed to in writing, software
+-# distributed under the License is distributed on an "AS IS" BASIS,
+-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+-# See the License for the specific language governing permissions and
+-# limitations under the License.
+-#
+-
+-PRODUCT_MAKEFILES := \
+-    $(LOCAL_DIR)/p4wifi.mk \
+-    $(LOCAL_DIR)/lineage_p4wifi.mk
+Index: extract-files.sh
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/extract-files.sh b/extract-files.sh
+deleted file mode 100644
+--- a/extract-files.sh	(revision 385350ee67a1c5c3bf794a688545f58817a4ebda)
++++ /dev/null	(revision 385350ee67a1c5c3bf794a688545f58817a4ebda)
+@@ -1,14 +0,0 @@
+-#!/bin/sh
+-
+-BASE=../../../vendor/samsung/p4wifi/proprietary
+-rm -rf $BASE/*
+-
+-for FILE in `cat proprietary-files.txt`; do
+-    DIR=`dirname $FILE`
+-    if [ ! -d $BASE/$DIR ]; then
+-        mkdir -p $BASE/$DIR
+-    fi
+-    adb pull /system/$FILE $BASE/$FILE
+-done
+-
+-./setup-makefiles.sh
+Index: overlay/frameworks/base/core/res/res/values/config.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/overlay/frameworks/base/core/res/res/values/config.xml b/overlay/frameworks/base/core/res/res/values/config.xml
+deleted file mode 100644
+--- a/overlay/frameworks/base/core/res/res/values/config.xml	(revision 385350ee67a1c5c3bf794a688545f58817a4ebda)
++++ /dev/null	(revision 385350ee67a1c5c3bf794a688545f58817a4ebda)
+@@ -1,82 +0,0 @@
+-<?xml version="1.0" encoding="utf-8"?>
+-<!--
+-/*
+-** Copyright 2011, The Android Open Source Project
+-**
+-** Licensed under the Apache License, Version 2.0 (the "License");
+-** you may not use this file except in compliance with the License.
+-** You may obtain a copy of the License at
+-**
+-**     http://www.apache.org/licenses/LICENSE-2.0
+-**
+-** Unless required by applicable law or agreed to in writing, software
+-** distributed under the License is distributed on an "AS IS" BASIS,
+-** WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+-** See the License for the specific language governing permissions and
+-** limitations under the License.
+-*/
+--->
+-
+-<!-- These resources are around just to allow their values to be customized
+-     for different hardware and product builds. -->
+-<resources>
+-
+-    <!-- This device does not allow sms service. -->
+-    <bool name="config_sms_capable">false</bool>
+-
+-    <!-- Flag indicating whether the current device is "voice capable".
+-         If true, this means that the device supports circuit-switched
+-         (i.e. voice) phone calls over the telephony network, and is
+-         allowed to display the in-call UI while a cellular voice call is
+-         active.  This can be overridden to false for "data only" devices
+-         which can't make voice calls and don't support any in-call UI.
+-
+-         Note: this flag is subtly different from the
+-         PackageManager.FEATURE_TELEPHONY system feature, which is
+-         available on *any* device with a telephony radio, even if the
+-         device is data-only. -->
+-    <bool name="config_voice_capable">false</bool>
+-
+-    <string name="config_datause_iface">wlan0</string>
+-
+-    <!-- XXXXX NOTE THE FOLLOWING RESOURCES USE THE WRONG NAMING CONVENTION.
+-         Please don't copy them, copy anything else. -->
+-
+-    <!-- This string array should be overridden by the device to present a list of network
+-         attributes.  This is used by the connectivity manager to decide which networks can coexist
+-         based on the hardware -->
+-    <!-- An Array of "[Connection name],[ConnectivityManager connection type],
+-         [associated radio-type],[priority],[restoral-timer(ms)],[dependencyMet]  -->
+-    <!-- the 5th element "resore-time" indicates the number of milliseconds to delay
+-         before automatically restore the default connection.  Set -1 if the connection
+-         does not require auto-restore. -->
+-    <!-- the 6th element indicates boot-time dependency-met value. -->
+-    <string-array translatable="false" name="networkAttributes">
+-        <item>"wifi,1,1,1,-1,true"</item>
+-        <item>"mobile_bluetooth,7,7,1,-1,true"</item>
+-        <item>"wifi_p2p,13,1,0,-1,true"</item>
+-    </string-array>
+-
+-    <!-- This string array should be overridden by the device to present a list of radio
+-         attributes.  This is used by the connectivity manager to decide which networks can coexist
+-         based on the hardware -->
+-    <!-- An Array of "[ConnectivityManager connectionType],
+-                      [# simultaneous connection types]"  -->
+-    <string-array translatable="false" name="radioAttributes">
+-        <item>"1,1"</item>
+-        <item>"7,1"</item>
+-    </string-array>
+-
+-    <!-- List of regexpressions describing the interface (if any) that represent tetherable
+-         USB interfaces.  If the device doesn't want to support tething over USB this should
+-         be empty.  An example would be "usb.*" -->
+-    <string-array translatable="false" name="config_tether_usb_regexs">
+-        <item>"rndis0"</item>
+-    </string-array>
+-
+-    <integer-array translatable="false" name="config_tether_upstream_types">
+-        <item>1</item>
+-        <item>7</item>
+-    </integer-array>
+-
+-</resources>
+Index: .idea/caches/deviceStreaming.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/caches/deviceStreaming.xml b/.idea/caches/deviceStreaming.xml
+deleted file mode 100644
+--- a/.idea/caches/deviceStreaming.xml	(revision 385350ee67a1c5c3bf794a688545f58817a4ebda)
++++ /dev/null	(revision 385350ee67a1c5c3bf794a688545f58817a4ebda)
+@@ -1,1538 +0,0 @@
+-<?xml version="1.0" encoding="UTF-8"?>
+-<project version="4">
+-  <component name="DeviceStreaming">
+-    <option name="deviceSelectionList">
+-      <list>
+-        <PersistentDeviceSelectionData>
+-          <option name="api" value="34" />
+-          <option name="brand" value="Sony" />
+-          <option name="codename" value="A402SO" />
+-          <option name="id" value="A402SO" />
+-          <option name="labId" value="google" />
+-          <option name="manufacturer" value="Sony" />
+-          <option name="name" value="Xperia 10" />
+-          <option name="screenDensity" value="450" />
+-          <option name="screenX" value="1080" />
+-          <option name="screenY" value="2520" />
+-        </PersistentDeviceSelectionData>
+-        <PersistentDeviceSelectionData>
+-          <option name="api" value="27" />
+-          <option name="brand" value="DOCOMO" />
+-          <option name="codename" value="F01L" />
+-          <option name="id" value="F01L" />
+-          <option name="labId" value="google" />
+-          <option name="manufacturer" value="FUJITSU" />
+-          <option name="name" value="F-01L" />
+-          <option name="screenDensity" value="360" />
+-          <option name="screenX" value="720" />
+-          <option name="screenY" value="1280" />
+-        </PersistentDeviceSelectionData>
+-        <PersistentDeviceSelectionData>
+-          <option name="api" value="34" />
+-          <option name="brand" value="OnePlus" />
+-          <option name="codename" value="OP535DL1" />
+-          <option name="id" value="OP535DL1" />
+-          <option name="labId" value="google" />
+-          <option name="manufacturer" value="OnePlus" />
+-          <option name="name" value="CPH2409" />
+-          <option name="screenDensity" value="401" />
+-          <option name="screenX" value="1080" />
+-          <option name="screenY" value="2412" />
+-        </PersistentDeviceSelectionData>
+-        <PersistentDeviceSelectionData>
+-          <option name="api" value="34" />
+-          <option name="brand" value="OnePlus" />
+-          <option name="codename" value="OP5552L1" />
+-          <option name="id" value="OP5552L1" />
+-          <option name="labId" value="google" />
+-          <option name="manufacturer" value="OnePlus" />
+-          <option name="name" value="CPH2415" />
+-          <option name="screenDensity" value="480" />
+-          <option name="screenX" value="1080" />
+-          <option name="screenY" value="2412" />
+-        </PersistentDeviceSelectionData>
+-        <PersistentDeviceSelectionData>
+-          <option name="api" value="34" />
+-          <option name="brand" value="OPPO" />
+-          <option name="codename" value="OP573DL1" />
+-          <option name="id" value="OP573DL1" />
+-          <option name="labId" value="google" />
+-          <option name="manufacturer" value="OPPO" />
+-          <option name="name" value="CPH2557" />
+-          <option name="screenDensity" value="480" />
+-          <option name="screenX" value="1080" />
+-          <option name="screenY" value="2400" />
+-        </PersistentDeviceSelectionData>
+-        <PersistentDeviceSelectionData>
+-          <option name="api" value="28" />
+-          <option name="brand" value="DOCOMO" />
+-          <option name="codename" value="SH-01L" />
+-          <option name="id" value="SH-01L" />
+-          <option name="labId" value="google" />
+-          <option name="manufacturer" value="SHARP" />
+-          <option name="name" value="AQUOS sense2 SH-01L" />
+-          <option name="screenDensity" value="480" />
+-          <option name="screenX" value="1080" />
+-          <option name="screenY" value="2160" />
+-        </PersistentDeviceSelectionData>
+-        <PersistentDeviceSelectionData>
+-          <option name="api" value="35" />
+-          <option name="brand" value="Lenovo" />
+-          <option name="codename" value="TB330FU" />
+-          <option name="formFactor" value="Tablet" />
+-          <option name="id" value="TB330FU" />
+-          <option name="labId" value="google" />
+-          <option name="manufacturer" value="Lenovo" />
+-          <option name="name" value="Tab M11" />
+-          <option name="screenDensity" value="240" />
+-          <option name="screenX" value="1200" />
+-          <option name="screenY" value="1920" />
+-        </PersistentDeviceSelectionData>
+-        <PersistentDeviceSelectionData>
+-          <option name="api" value="33" />
+-          <option name="brand" value="samsung" />
+-          <option name="codename" value="a03su" />
+-          <option name="id" value="a03su" />
+-          <option name="labId" value="google" />
+-          <option name="manufacturer" value="Samsung" />
+-          <option name="name" value="Galaxy A03s" />
+-          <option name="screenDensity" value="280" />
+-          <option name="screenX" value="720" />
+-          <option name="screenY" value="1600" />
+-        </PersistentDeviceSelectionData>
+-        <PersistentDeviceSelectionData>
+-          <option name="api" value="35" />
+-          <option name="brand" value="samsung" />
+-          <option name="codename" value="a05s" />
+-          <option name="id" value="a05s" />
+-          <option name="labId" value="google" />
+-          <option name="manufacturer" value="Samsung" />
+-          <option name="name" value="A05s" />
+-          <option name="screenDensity" value="450" />
+-          <option name="screenX" value="1080" />
+-          <option name="screenY" value="2400" />
+-        </PersistentDeviceSelectionData>
+-        <PersistentDeviceSelectionData>
+-          <option name="api" value="35" />
+-          <option name="brand" value="samsung" />
+-          <option name="codename" value="a06" />
+-          <option name="id" value="a06" />
+-          <option name="labId" value="google" />
+-          <option name="manufacturer" value="Samsung" />
+-          <option name="name" value="Galaxy A06" />
+-          <option name="screenDensity" value="300" />
+-          <option name="screenX" value="720" />
+-          <option name="screenY" value="1600" />
+-        </PersistentDeviceSelectionData>
+-        <PersistentDeviceSelectionData>
+-          <option name="api" value="34" />
+-          <option name="brand" value="samsung" />
+-          <option name="codename" value="a13" />
+-          <option name="id" value="a13" />
+-          <option name="labId" value="google" />
+-          <option name="manufacturer" value="Samsung" />
+-          <option name="name" value="Galaxy A13" />
+-          <option name="screenDensity" value="450" />
+-          <option name="screenX" value="1080" />
+-          <option name="screenY" value="2408" />
+-        </PersistentDeviceSelectionData>
+-        <PersistentDeviceSelectionData>
+-          <option name="api" value="34" />
+-          <option name="brand" value="samsung" />
+-          <option name="codename" value="a14m" />
+-          <option name="id" value="a14m" />
+-          <option name="labId" value="google" />
+-          <option name="manufacturer" value="Samsung" />
+-          <option name="name" value="SM-A145R" />
+-          <option name="screenDensity" value="450" />
+-          <option name="screenX" value="1080" />
+-          <option name="screenY" value="2408" />
+-        </PersistentDeviceSelectionData>
+-        <PersistentDeviceSelectionData>
+-          <option name="api" value="35" />
+-          <option name="brand" value="samsung" />
+-          <option name="codename" value="a14xmsq" />
+-          <option name="id" value="a14xmsq" />
+-          <option name="labId" value="google" />
+-          <option name="manufacturer" value="Samsung" />
+-          <option name="name" value="Galaxy A14 5G" />
+-          <option name="screenDensity" value="450" />
+-          <option name="screenX" value="1080" />
+-          <option name="screenY" value="2408" />
+-        </PersistentDeviceSelectionData>
+-        <PersistentDeviceSelectionData>
+-          <option name="api" value="35" />
+-          <option name="brand" value="samsung" />
+-          <option name="codename" value="a14xmtfn" />
+-          <option name="id" value="a14xmtfn" />
+-          <option name="labId" value="google" />
+-          <option name="manufacturer" value="Samsung" />
+-          <option name="name" value="Galaxy A14 5G" />
+-          <option name="screenDensity" value="450" />
+-          <option name="screenX" value="1080" />
+-          <option name="screenY" value="2408" />
+-        </PersistentDeviceSelectionData>
+-        <PersistentDeviceSelectionData>
+-          <option name="api" value="34" />
+-          <option name="brand" value="samsung" />
+-          <option name="codename" value="a15" />
+-          <option name="id" value="a15" />
+-          <option name="labId" value="google" />
+-          <option name="manufacturer" value="Samsung" />
+-          <option name="name" value="A15" />
+-          <option name="screenDensity" value="450" />
+-          <option name="screenX" value="1080" />
+-          <option name="screenY" value="2340" />
+-        </PersistentDeviceSelectionData>
+-        <PersistentDeviceSelectionData>
+-          <option name="api" value="34" />
+-          <option name="brand" value="samsung" />
+-          <option name="codename" value="a15x" />
+-          <option name="id" value="a15x" />
+-          <option name="labId" value="google" />
+-          <option name="manufacturer" value="Samsung" />
+-          <option name="name" value="A15 5G" />
+-          <option name="screenDensity" value="450" />
+-          <option name="screenX" value="1080" />
+-          <option name="screenY" value="2340" />
+-        </PersistentDeviceSelectionData>
+-        <PersistentDeviceSelectionData>
+-          <option name="api" value="36" />
+-          <option name="brand" value="samsung" />
+-          <option name="codename" value="a15x" />
+-          <option name="id" value="a15x" />
+-          <option name="labId" value="google" />
+-          <option name="manufacturer" value="Samsung" />
+-          <option name="name" value="A15 5G" />
+-          <option name="screenDensity" value="450" />
+-          <option name="screenX" value="1080" />
+-          <option name="screenY" value="2340" />
+-        </PersistentDeviceSelectionData>
+-        <PersistentDeviceSelectionData>
+-          <option name="api" value="36" />
+-          <option name="brand" value="samsung" />
+-          <option name="codename" value="a15xtfn" />
+-          <option name="id" value="a15xtfn" />
+-          <option name="labId" value="google" />
+-          <option name="manufacturer" value="Samsung" />
+-          <option name="name" value="Galaxy A15 5G" />
+-          <option name="screenDensity" value="450" />
+-          <option name="screenX" value="1080" />
+-          <option name="screenY" value="2340" />
+-        </PersistentDeviceSelectionData>
+-        <PersistentDeviceSelectionData>
+-          <option name="api" value="35" />
+-          <option name="brand" value="samsung" />
+-          <option name="codename" value="a16" />
+-          <option name="id" value="a16" />
+-          <option name="labId" value="google" />
+-          <option name="manufacturer" value="Samsung" />
+-          <option name="name" value="SM-A165M" />
+-          <option name="screenDensity" value="450" />
+-          <option name="screenX" value="1080" />
+-          <option name="screenY" value="2340" />
+-        </PersistentDeviceSelectionData>
+-        <PersistentDeviceSelectionData>
+-          <option name="api" value="34" />
+-          <option name="brand" value="samsung" />
+-          <option name="codename" value="a16x" />
+-          <option name="id" value="a16x" />
+-          <option name="labId" value="google" />
+-          <option name="manufacturer" value="Samsung" />
+-          <option name="name" value="A16 5G" />
+-          <option name="screenDensity" value="450" />
+-          <option name="screenX" value="1080" />
+-          <option name="screenY" value="2340" />
+-        </PersistentDeviceSelectionData>
+-        <PersistentDeviceSelectionData>
+-          <option name="api" value="36" />
+-          <option name="brand" value="samsung" />
+-          <option name="codename" value="a16x" />
+-          <option name="id" value="a16x" />
+-          <option name="labId" value="google" />
+-          <option name="manufacturer" value="Samsung" />
+-          <option name="name" value="A16 5G" />
+-          <option name="screenDensity" value="450" />
+-          <option name="screenX" value="1080" />
+-          <option name="screenY" value="2340" />
+-        </PersistentDeviceSelectionData>
+-        <PersistentDeviceSelectionData>
+-          <option name="api" value="35" />
+-          <option name="brand" value="samsung" />
+-          <option name="codename" value="a16xeea" />
+-          <option name="id" value="a16xeea" />
+-          <option name="labId" value="google" />
+-          <option name="manufacturer" value="Samsung" />
+-          <option name="name" value="A16 5G" />
+-          <option name="screenDensity" value="450" />
+-          <option name="screenX" value="1080" />
+-          <option name="screenY" value="2340" />
+-        </PersistentDeviceSelectionData>
+-        <PersistentDeviceSelectionData>
+-          <option name="api" value="31" />
+-          <option name="brand" value="samsung" />
+-          <option name="codename" value="a21" />
+-          <option name="id" value="a21" />
+-          <option name="labId" value="google" />
+-          <option name="manufacturer" value="Samsung" />
+-          <option name="name" value="Galaxy A21" />
+-          <option name="screenDensity" value="300" />
+-          <option name="screenX" value="720" />
+-          <option name="screenY" value="1600" />
+-        </PersistentDeviceSelectionData>
+-        <PersistentDeviceSelectionData>
+-          <option name="api" value="36" />
+-          <option name="brand" value="samsung" />
+-          <option name="codename" value="a26x" />
+-          <option name="id" value="a26x" />
+-          <option name="labId" value="google" />
+-          <option name="manufacturer" value="Samsung" />
+-          <option name="name" value="SM-A266B" />
+-          <option name="screenDensity" value="450" />
+-          <option name="screenX" value="1080" />
+-          <option name="screenY" value="2340" />
+-        </PersistentDeviceSelectionData>
+-        <PersistentDeviceSelectionData>
+-          <option name="api" value="36" />
+-          <option name="brand" value="samsung" />
+-          <option name="codename" value="a34x" />
+-          <option name="id" value="a34x" />
+-          <option name="labId" value="google" />
+-          <option name="manufacturer" value="Samsung" />
+-          <option name="name" value="SM-A346N" />
+-          <option name="screenDensity" value="450" />
+-          <option name="screenX" value="1080" />
+-          <option name="screenY" value="2340" />
+-        </PersistentDeviceSelectionData>
+-        <PersistentDeviceSelectionData>
+-          <option name="api" value="34" />
+-          <option name="brand" value="samsung" />
+-          <option name="codename" value="a35x" />
+-          <option name="id" value="a35x" />
+-          <option name="labId" value="google" />
+-          <option name="manufacturer" value="Samsung" />
+-          <option name="name" value="A35" />
+-          <option name="screenDensity" value="450" />
+-          <option name="screenX" value="1080" />
+-          <option name="screenY" value="2340" />
+-        </PersistentDeviceSelectionData>
+-        <PersistentDeviceSelectionData>
+-          <option name="api" value="35" />
+-          <option name="brand" value="samsung" />
+-          <option name="codename" value="a35x" />
+-          <option name="id" value="a35x" />
+-          <option name="labId" value="google" />
+-          <option name="manufacturer" value="Samsung" />
+-          <option name="name" value="A35" />
+-          <option name="screenDensity" value="450" />
+-          <option name="screenX" value="1080" />
+-          <option name="screenY" value="2340" />
+-        </PersistentDeviceSelectionData>
+-        <PersistentDeviceSelectionData>
+-          <option name="api" value="36" />
+-          <option name="brand" value="samsung" />
+-          <option name="codename" value="a35x" />
+-          <option name="id" value="a35x" />
+-          <option name="labId" value="google" />
+-          <option name="manufacturer" value="Samsung" />
+-          <option name="name" value="A35" />
+-          <option name="screenDensity" value="450" />
+-          <option name="screenX" value="1080" />
+-          <option name="screenY" value="2340" />
+-        </PersistentDeviceSelectionData>
+-        <PersistentDeviceSelectionData>
+-          <option name="api" value="35" />
+-          <option name="brand" value="samsung" />
+-          <option name="codename" value="a36xq" />
+-          <option name="id" value="a36xq" />
+-          <option name="labId" value="google" />
+-          <option name="manufacturer" value="Samsung" />
+-          <option name="name" value="SM-A366E" />
+-          <option name="screenDensity" value="450" />
+-          <option name="screenX" value="1080" />
+-          <option name="screenY" value="2340" />
+-        </PersistentDeviceSelectionData>
+-        <PersistentDeviceSelectionData>
+-          <option name="api" value="36" />
+-          <option name="brand" value="samsung" />
+-          <option name="codename" value="a36xq" />
+-          <option name="id" value="a36xq" />
+-          <option name="labId" value="google" />
+-          <option name="manufacturer" value="Samsung" />
+-          <option name="name" value="SM-A366E" />
+-          <option name="screenDensity" value="450" />
+-          <option name="screenX" value="1080" />
+-          <option name="screenY" value="2340" />
+-        </PersistentDeviceSelectionData>
+-        <PersistentDeviceSelectionData>
+-          <option name="api" value="35" />
+-          <option name="brand" value="samsung" />
+-          <option name="codename" value="a56x" />
+-          <option name="id" value="a56x" />
+-          <option name="labId" value="google" />
+-          <option name="manufacturer" value="Samsung" />
+-          <option name="name" value="SM-A566E" />
+-          <option name="screenDensity" value="450" />
+-          <option name="screenX" value="1080" />
+-          <option name="screenY" value="2340" />
+-        </PersistentDeviceSelectionData>
+-        <PersistentDeviceSelectionData>
+-          <option name="api" value="34" />
+-          <option name="brand" value="google" />
+-          <option name="codename" value="akita" />
+-          <option name="id" value="akita" />
+-          <option name="labId" value="google" />
+-          <option name="manufacturer" value="Google" />
+-          <option name="name" value="Pixel 8a" />
+-          <option name="screenDensity" value="420" />
+-          <option name="screenX" value="1080" />
+-          <option name="screenY" value="2400" />
+-        </PersistentDeviceSelectionData>
+-        <PersistentDeviceSelectionData>
+-          <option name="api" value="35" />
+-          <option name="brand" value="google" />
+-          <option name="codename" value="akita" />
+-          <option name="id" value="akita" />
+-          <option name="labId" value="google" />
+-          <option name="manufacturer" value="Google" />
+-          <option name="name" value="Pixel 8a" />
+-          <option name="screenDensity" value="420" />
+-          <option name="screenX" value="1080" />
+-          <option name="screenY" value="2400" />
+-        </PersistentDeviceSelectionData>
+-        <PersistentDeviceSelectionData>
+-          <option name="api" value="34" />
+-          <option name="brand" value="motorola" />
+-          <option name="codename" value="arcfox" />
+-          <option name="id" value="arcfox" />
+-          <option name="labId" value="google" />
+-          <option name="manufacturer" value="Motorola" />
+-          <option name="name" value="razr plus 2024" />
+-          <option name="screenDensity" value="360" />
+-          <option name="screenX" value="1080" />
+-          <option name="screenY" value="1272" />
+-        </PersistentDeviceSelectionData>
+-        <PersistentDeviceSelectionData>
+-          <option name="api" value="33" />
+-          <option name="brand" value="motorola" />
+-          <option name="codename" value="austin" />
+-          <option name="id" value="austin" />
+-          <option name="labId" value="google" />
+-          <option name="manufacturer" value="Motorola" />
+-          <option name="name" value="moto g 5G (2022)" />
+-          <option name="screenDensity" value="280" />
+-          <option name="screenX" value="720" />
+-          <option name="screenY" value="1600" />
+-        </PersistentDeviceSelectionData>
+-        <PersistentDeviceSelectionData>
+-          <option name="api" value="33" />
+-          <option name="brand" value="samsung" />
+-          <option name="codename" value="b0q" />
+-          <option name="id" value="b0q" />
+-          <option name="labId" value="google" />
+-          <option name="manufacturer" value="Samsung" />
+-          <option name="name" value="Galaxy S22 Ultra" />
+-          <option name="screenDensity" value="600" />
+-          <option name="screenX" value="1440" />
+-          <option name="screenY" value="3088" />
+-        </PersistentDeviceSelectionData>
+-        <PersistentDeviceSelectionData>
+-          <option name="api" value="36" />
+-          <option name="brand" value="samsung" />
+-          <option name="codename" value="b0q" />
+-          <option name="id" value="b0q" />
+-          <option name="labId" value="google" />
+-          <option name="manufacturer" value="Samsung" />
+-          <option name="name" value="Galaxy S22 Ultra" />
+-          <option name="screenDensity" value="600" />
+-          <option name="screenX" value="1440" />
+-          <option name="screenY" value="3088" />
+-        </PersistentDeviceSelectionData>
+-        <PersistentDeviceSelectionData>
+-          <option name="api" value="34" />
+-          <option name="brand" value="samsung" />
+-          <option name="codename" value="b6q" />
+-          <option name="id" value="b6q" />
+-          <option name="labId" value="google" />
+-          <option name="manufacturer" value="Samsung" />
+-          <option name="name" value="Galaxy Z Flip 6" />
+-          <option name="screenDensity" value="340" />
+-          <option name="screenX" value="1080" />
+-          <option name="screenY" value="2640" />
+-        </PersistentDeviceSelectionData>
+-        <PersistentDeviceSelectionData>
+-          <option name="api" value="36" />
+-          <option name="brand" value="samsung" />
+-          <option name="codename" value="b6qsqw" />
+-          <option name="id" value="b6qsqw" />
+-          <option name="labId" value="google" />
+-          <option name="manufacturer" value="Samsung" />
+-          <option name="name" value="Galaxy Z Flip 6" />
+-          <option name="screenDensity" value="480" />
+-          <option name="screenX" value="1080" />
+-          <option name="screenY" value="2640" />
+-        </PersistentDeviceSelectionData>
+-        <PersistentDeviceSelectionData>
+-          <option name="api" value="36" />
+-          <option name="brand" value="google" />
+-          <option name="codename" value="blazer" />
+-          <option name="id" value="blazer" />
+-          <option name="labId" value="google" />
+-          <option name="manufacturer" value="Google" />
+-          <option name="name" value="Pixel 10 Pro" />
+-          <option name="screenDensity" value="420" />
+-          <option name="screenX" value="1080" />
+-          <option name="screenY" value="2410" />
+-        </PersistentDeviceSelectionData>
+-        <PersistentDeviceSelectionData>
+-          <option name="api" value="32" />
+-          <option name="brand" value="google" />
+-          <option name="codename" value="bluejay" />
+-          <option name="id" value="bluejay" />
+-          <option name="labId" value="google" />
+-          <option name="manufacturer" value="Google" />
+-          <option name="name" value="Pixel 6a" />
+-          <option name="screenDensity" value="420" />
+-          <option name="screenX" value="1080" />
+-          <option name="screenY" value="2400" />
+-        </PersistentDeviceSelectionData>
+-        <PersistentDeviceSelectionData>
+-          <option name="api" value="33" />
+-          <option name="brand" value="samsung" />
+-          <option name="codename" value="c1q" />
+-          <option name="id" value="c1q" />
+-          <option name="labId" value="google" />
+-          <option name="manufacturer" value="Samsung" />
+-          <option name="name" value="Galaxy Note 20 5G" />
+-          <option name="screenDensity" value="450" />
+-          <option name="screenX" value="1080" />
+-          <option name="screenY" value="2400" />
+-        </PersistentDeviceSelectionData>
+-        <PersistentDeviceSelectionData>
+-          <option name="api" value="34" />
+-          <option name="brand" value="google" />
+-          <option name="codename" value="caiman" />
+-          <option name="id" value="caiman" />
+-          <option name="labId" value="google" />
+-          <option name="manufacturer" value="Google" />
+-          <option name="name" value="Pixel 9 Pro" />
+-          <option name="screenDensity" value="360" />
+-          <option name="screenX" value="960" />
+-          <option name="screenY" value="2142" />
+-        </PersistentDeviceSelectionData>
+-        <PersistentDeviceSelectionData>
+-          <option name="api" value="35" />
+-          <option name="brand" value="google" />
+-          <option name="codename" value="caiman" />
+-          <option name="id" value="caiman" />
+-          <option name="labId" value="google" />
+-          <option name="manufacturer" value="Google" />
+-          <option name="name" value="Pixel 9 Pro" />
+-          <option name="screenDensity" value="360" />
+-          <option name="screenX" value="960" />
+-          <option name="screenY" value="2142" />
+-        </PersistentDeviceSelectionData>
+-        <PersistentDeviceSelectionData>
+-          <option name="api" value="34" />
+-          <option name="brand" value="google" />
+-          <option name="codename" value="comet" />
+-          <option name="default" value="true" />
+-          <option name="id" value="comet" />
+-          <option name="labId" value="google" />
+-          <option name="manufacturer" value="Google" />
+-          <option name="name" value="Pixel 9 Pro Fold" />
+-          <option name="screenDensity" value="390" />
+-          <option name="screenX" value="2076" />
+-          <option name="screenY" value="2152" />
+-          <option name="tags">
+-            <list>
+-              <option value="dda-default" />
+-            </list>
+-          </option>
+-        </PersistentDeviceSelectionData>
+-        <PersistentDeviceSelectionData>
+-          <option name="api" value="35" />
+-          <option name="brand" value="google" />
+-          <option name="codename" value="comet" />
+-          <option name="default" value="true" />
+-          <option name="id" value="comet" />
+-          <option name="labId" value="google" />
+-          <option name="manufacturer" value="Google" />
+-          <option name="name" value="Pixel 9 Pro Fold" />
+-          <option name="screenDensity" value="390" />
+-          <option name="screenX" value="2076" />
+-          <option name="screenY" value="2152" />
+-          <option name="tags">
+-            <list>
+-              <option value="dda-default" />
+-            </list>
+-          </option>
+-        </PersistentDeviceSelectionData>
+-        <PersistentDeviceSelectionData>
+-          <option name="api" value="35" />
+-          <option name="brand" value="motorola" />
+-          <option name="codename" value="cuscoi" />
+-          <option name="id" value="cuscoi" />
+-          <option name="labId" value="google" />
+-          <option name="manufacturer" value="Motorola" />
+-          <option name="name" value="edge 50 fusion" />
+-          <option name="screenDensity" value="400" />
+-          <option name="screenX" value="1080" />
+-          <option name="screenY" value="2400" />
+-        </PersistentDeviceSelectionData>
+-        <PersistentDeviceSelectionData>
+-          <option name="api" value="35" />
+-          <option name="brand" value="samsung" />
+-          <option name="codename" value="dm1q" />
+-          <option name="id" value="dm1q" />
+-          <option name="labId" value="google" />
+-          <option name="manufacturer" value="Samsung" />
+-          <option name="name" value="S23" />
+-          <option name="screenDensity" value="480" />
+-          <option name="screenX" value="1080" />
+-          <option name="screenY" value="2340" />
+-        </PersistentDeviceSelectionData>
+-        <PersistentDeviceSelectionData>
+-          <option name="api" value="36" />
+-          <option name="brand" value="samsung" />
+-          <option name="codename" value="dm1q-SM-S911U" />
+-          <option name="id" value="dm1q-SM-S911U" />
+-          <option name="labId" value="google" />
+-          <option name="manufacturer" value="Samsung" />
+-          <option name="name" value="S23" />
+-          <option name="screenDensity" value="480" />
+-          <option name="screenX" value="1080" />
+-          <option name="screenY" value="2340" />
+-        </PersistentDeviceSelectionData>
+-        <PersistentDeviceSelectionData>
+-          <option name="api" value="36" />
+-          <option name="brand" value="samsung" />
+-          <option name="codename" value="dm1qcsx" />
+-          <option name="id" value="dm1qcsx" />
+-          <option name="labId" value="google" />
+-          <option name="manufacturer" value="Samsung" />
+-          <option name="name" value="Galaxy S23" />
+-          <option name="screenDensity" value="480" />
+-          <option name="screenX" value="1080" />
+-          <option name="screenY" value="2340" />
+-        </PersistentDeviceSelectionData>
+-        <PersistentDeviceSelectionData>
+-          <option name="api" value="34" />
+-          <option name="brand" value="samsung" />
+-          <option name="codename" value="dm2q" />
+-          <option name="id" value="dm2q" />
+-          <option name="labId" value="google" />
+-          <option name="manufacturer" value="Samsung" />
+-          <option name="name" value="S23 Plus" />
+-          <option name="screenDensity" value="450" />
+-          <option name="screenX" value="1080" />
+-          <option name="screenY" value="2340" />
+-        </PersistentDeviceSelectionData>
+-        <PersistentDeviceSelectionData>
+-          <option name="api" value="34" />
+-          <option name="brand" value="samsung" />
+-          <option name="codename" value="dm3q" />
+-          <option name="id" value="dm3q" />
+-          <option name="labId" value="google" />
+-          <option name="manufacturer" value="Samsung" />
+-          <option name="name" value="Galaxy S23 Ultra" />
+-          <option name="screenDensity" value="600" />
+-          <option name="screenX" value="1440" />
+-          <option name="screenY" value="3088" />
+-        </PersistentDeviceSelectionData>
+-        <PersistentDeviceSelectionData>
+-          <option name="api" value="34" />
+-          <option name="brand" value="motorola" />
+-          <option name="codename" value="dubai" />
+-          <option name="id" value="dubai" />
+-          <option name="labId" value="google" />
+-          <option name="manufacturer" value="Motorola" />
+-          <option name="name" value="edge 30" />
+-          <option name="screenDensity" value="405" />
+-          <option name="screenX" value="1080" />
+-          <option name="screenY" value="2400" />
+-        </PersistentDeviceSelectionData>
+-        <PersistentDeviceSelectionData>
+-          <option name="api" value="34" />
+-          <option name="brand" value="samsung" />
+-          <option name="codename" value="e1q" />
+-          <option name="default" value="true" />
+-          <option name="id" value="e1q" />
+-          <option name="labId" value="google" />
+-          <option name="manufacturer" value="Samsung" />
+-          <option name="name" value="Galaxy S24" />
+-          <option name="screenDensity" value="480" />
+-          <option name="screenX" value="1080" />
+-          <option name="screenY" value="2340" />
+-          <option name="tags">
+-            <list>
+-              <option value="dda-default" />
+-            </list>
+-          </option>
+-        </PersistentDeviceSelectionData>
+-        <PersistentDeviceSelectionData>
+-          <option name="api" value="36" />
+-          <option name="brand" value="samsung" />
+-          <option name="codename" value="e1q" />
+-          <option name="default" value="true" />
+-          <option name="id" value="e1q" />
+-          <option name="labId" value="google" />
+-          <option name="manufacturer" value="Samsung" />
+-          <option name="name" value="Galaxy S24" />
+-          <option name="screenDensity" value="480" />
+-          <option name="screenX" value="1080" />
+-          <option name="screenY" value="2340" />
+-          <option name="tags">
+-            <list>
+-              <option value="dda-default" />
+-            </list>
+-          </option>
+-        </PersistentDeviceSelectionData>
+-        <PersistentDeviceSelectionData>
+-          <option name="api" value="36" />
+-          <option name="brand" value="samsung" />
+-          <option name="codename" value="e2q" />
+-          <option name="id" value="e2q" />
+-          <option name="labId" value="google" />
+-          <option name="manufacturer" value="Samsung" />
+-          <option name="name" value="Galaxy S24 +" />
+-          <option name="screenDensity" value="450" />
+-          <option name="screenX" value="1080" />
+-          <option name="screenY" value="2340" />
+-        </PersistentDeviceSelectionData>
+-        <PersistentDeviceSelectionData>
+-          <option name="api" value="36" />
+-          <option name="brand" value="samsung" />
+-          <option name="codename" value="e2s" />
+-          <option name="id" value="e2s" />
+-          <option name="labId" value="google" />
+-          <option name="manufacturer" value="Samsung" />
+-          <option name="name" value="Galaxy S24+" />
+-          <option name="screenDensity" value="450" />
+-          <option name="screenX" value="1080" />
+-          <option name="screenY" value="2340" />
+-        </PersistentDeviceSelectionData>
+-        <PersistentDeviceSelectionData>
+-          <option name="api" value="34" />
+-          <option name="brand" value="samsung" />
+-          <option name="codename" value="e3q" />
+-          <option name="id" value="e3q" />
+-          <option name="labId" value="google" />
+-          <option name="manufacturer" value="Samsung" />
+-          <option name="name" value="Galaxy S24 Ultra" />
+-          <option name="screenDensity" value="450" />
+-          <option name="screenX" value="1440" />
+-          <option name="screenY" value="3120" />
+-        </PersistentDeviceSelectionData>
+-        <PersistentDeviceSelectionData>
+-          <option name="api" value="36" />
+-          <option name="brand" value="samsung" />
+-          <option name="codename" value="e3q" />
+-          <option name="id" value="e3q" />
+-          <option name="labId" value="google" />
+-          <option name="manufacturer" value="Samsung" />
+-          <option name="name" value="Galaxy S24 Ultra" />
+-          <option name="screenDensity" value="450" />
+-          <option name="screenX" value="1440" />
+-          <option name="screenY" value="3120" />
+-        </PersistentDeviceSelectionData>
+-        <PersistentDeviceSelectionData>
+-          <option name="api" value="36" />
+-          <option name="brand" value="samsung" />
+-          <option name="codename" value="e3qcsx" />
+-          <option name="id" value="e3qcsx" />
+-          <option name="labId" value="google" />
+-          <option name="manufacturer" value="Samsung" />
+-          <option name="name" value="Galaxy S24 Ultra" />
+-          <option name="screenDensity" value="450" />
+-          <option name="screenX" value="1440" />
+-          <option name="screenY" value="3120" />
+-        </PersistentDeviceSelectionData>
+-        <PersistentDeviceSelectionData>
+-          <option name="api" value="36" />
+-          <option name="brand" value="samsung" />
+-          <option name="codename" value="e3qksx" />
+-          <option name="id" value="e3qksx" />
+-          <option name="labId" value="google" />
+-          <option name="manufacturer" value="Samsung" />
+-          <option name="name" value="Galaxy S24 Ultra" />
+-          <option name="screenDensity" value="450" />
+-          <option name="screenX" value="1440" />
+-          <option name="screenY" value="3120" />
+-        </PersistentDeviceSelectionData>
+-        <PersistentDeviceSelectionData>
+-          <option name="api" value="33" />
+-          <option name="brand" value="google" />
+-          <option name="codename" value="eos" />
+-          <option name="id" value="eos" />
+-          <option name="labId" value="google" />
+-          <option name="manufacturer" value="Google" />
+-          <option name="name" value="Eos" />
+-          <option name="screenDensity" value="320" />
+-          <option name="screenX" value="384" />
+-          <option name="screenY" value="384" />
+-        </PersistentDeviceSelectionData>
+-        <PersistentDeviceSelectionData>
+-          <option name="api" value="33" />
+-          <option name="brand" value="google" />
+-          <option name="codename" value="felix" />
+-          <option name="id" value="felix" />
+-          <option name="labId" value="google" />
+-          <option name="manufacturer" value="Google" />
+-          <option name="name" value="Pixel Fold" />
+-          <option name="screenDensity" value="420" />
+-          <option name="screenX" value="2208" />
+-          <option name="screenY" value="1840" />
+-        </PersistentDeviceSelectionData>
+-        <PersistentDeviceSelectionData>
+-          <option name="api" value="34" />
+-          <option name="brand" value="google" />
+-          <option name="codename" value="felix" />
+-          <option name="id" value="felix" />
+-          <option name="labId" value="google" />
+-          <option name="manufacturer" value="Google" />
+-          <option name="name" value="Pixel Fold" />
+-          <option name="screenDensity" value="420" />
+-          <option name="screenX" value="2208" />
+-          <option name="screenY" value="1840" />
+-        </PersistentDeviceSelectionData>
+-        <PersistentDeviceSelectionData>
+-          <option name="api" value="33" />
+-          <option name="brand" value="google" />
+-          <option name="codename" value="felix_camera" />
+-          <option name="id" value="felix_camera" />
+-          <option name="labId" value="google" />
+-          <option name="manufacturer" value="Google" />
+-          <option name="name" value="Pixel Fold (Camera-enabled)" />
+-          <option name="screenDensity" value="420" />
+-          <option name="screenX" value="2208" />
+-          <option name="screenY" value="1840" />
+-        </PersistentDeviceSelectionData>
+-        <PersistentDeviceSelectionData>
+-          <option name="api" value="34" />
+-          <option name="brand" value="motorola" />
+-          <option name="codename" value="fogona" />
+-          <option name="id" value="fogona" />
+-          <option name="labId" value="google" />
+-          <option name="manufacturer" value="Motorola" />
+-          <option name="name" value="moto g play - 2024" />
+-          <option name="screenDensity" value="280" />
+-          <option name="screenX" value="720" />
+-          <option name="screenY" value="1600" />
+-        </PersistentDeviceSelectionData>
+-        <PersistentDeviceSelectionData>
+-          <option name="api" value="34" />
+-          <option name="brand" value="motorola" />
+-          <option name="codename" value="fogorow" />
+-          <option name="id" value="fogorow" />
+-          <option name="labId" value="google" />
+-          <option name="manufacturer" value="Motorola" />
+-          <option name="name" value="moto g24" />
+-          <option name="screenDensity" value="280" />
+-          <option name="screenX" value="720" />
+-          <option name="screenY" value="1612" />
+-        </PersistentDeviceSelectionData>
+-        <PersistentDeviceSelectionData>
+-          <option name="api" value="34" />
+-          <option name="brand" value="motorola" />
+-          <option name="codename" value="fogos" />
+-          <option name="id" value="fogos" />
+-          <option name="labId" value="google" />
+-          <option name="manufacturer" value="Motorola" />
+-          <option name="name" value="moto g34 5G" />
+-          <option name="screenDensity" value="280" />
+-          <option name="screenX" value="720" />
+-          <option name="screenY" value="1600" />
+-        </PersistentDeviceSelectionData>
+-        <PersistentDeviceSelectionData>
+-          <option name="api" value="36" />
+-          <option name="brand" value="google" />
+-          <option name="codename" value="frankel" />
+-          <option name="id" value="frankel" />
+-          <option name="labId" value="google" />
+-          <option name="manufacturer" value="Google" />
+-          <option name="name" value="Pixel 10" />
+-          <option name="screenDensity" value="420" />
+-          <option name="screenX" value="1080" />
+-          <option name="screenY" value="2424" />
+-        </PersistentDeviceSelectionData>
+-        <PersistentDeviceSelectionData>
+-          <option name="api" value="34" />
+-          <option name="brand" value="samsung" />
+-          <option name="codename" value="g0q" />
+-          <option name="id" value="g0q" />
+-          <option name="labId" value="google" />
+-          <option name="manufacturer" value="Samsung" />
+-          <option name="name" value="SM-S906U1" />
+-          <option name="screenDensity" value="450" />
+-          <option name="screenX" value="1080" />
+-          <option name="screenY" value="2340" />
+-        </PersistentDeviceSelectionData>
+-        <PersistentDeviceSelectionData>
+-          <option name="api" value="36" />
+-          <option name="brand" value="samsung" />
+-          <option name="codename" value="g0q" />
+-          <option name="id" value="g0q" />
+-          <option name="labId" value="google" />
+-          <option name="manufacturer" value="Samsung" />
+-          <option name="name" value="SM-S906U1" />
+-          <option name="screenDensity" value="450" />
+-          <option name="screenX" value="1080" />
+-          <option name="screenY" value="2340" />
+-        </PersistentDeviceSelectionData>
+-        <PersistentDeviceSelectionData>
+-          <option name="api" value="33" />
+-          <option name="brand" value="motorola" />
+-          <option name="codename" value="gnevan" />
+-          <option name="id" value="gnevan" />
+-          <option name="labId" value="google" />
+-          <option name="manufacturer" value="Motorola" />
+-          <option name="name" value="moto g stylus (2023)" />
+-          <option name="screenDensity" value="280" />
+-          <option name="screenX" value="720" />
+-          <option name="screenY" value="1600" />
+-        </PersistentDeviceSelectionData>
+-        <PersistentDeviceSelectionData>
+-          <option name="api" value="34" />
+-          <option name="brand" value="samsung" />
+-          <option name="codename" value="gta9pwifi" />
+-          <option name="id" value="gta9pwifi" />
+-          <option name="labId" value="google" />
+-          <option name="manufacturer" value="Samsung" />
+-          <option name="name" value="SM-X210" />
+-          <option name="screenDensity" value="240" />
+-          <option name="screenX" value="1200" />
+-          <option name="screenY" value="1920" />
+-        </PersistentDeviceSelectionData>
+-        <PersistentDeviceSelectionData>
+-          <option name="api" value="33" />
+-          <option name="brand" value="samsung" />
+-          <option name="codename" value="gts7lwifi" />
+-          <option name="id" value="gts7lwifi" />
+-          <option name="labId" value="google" />
+-          <option name="manufacturer" value="Samsung" />
+-          <option name="name" value="SM-T870" />
+-          <option name="screenDensity" value="340" />
+-          <option name="screenX" value="1600" />
+-          <option name="screenY" value="2560" />
+-        </PersistentDeviceSelectionData>
+-        <PersistentDeviceSelectionData>
+-          <option name="api" value="34" />
+-          <option name="brand" value="samsung" />
+-          <option name="codename" value="gts7xllite" />
+-          <option name="id" value="gts7xllite" />
+-          <option name="labId" value="google" />
+-          <option name="manufacturer" value="Samsung" />
+-          <option name="name" value="SM-T738U" />
+-          <option name="screenDensity" value="340" />
+-          <option name="screenX" value="1600" />
+-          <option name="screenY" value="2560" />
+-        </PersistentDeviceSelectionData>
+-        <PersistentDeviceSelectionData>
+-          <option name="api" value="33" />
+-          <option name="brand" value="samsung" />
+-          <option name="codename" value="gts8uwifi" />
+-          <option name="formFactor" value="Tablet" />
+-          <option name="id" value="gts8uwifi" />
+-          <option name="labId" value="google" />
+-          <option name="manufacturer" value="Samsung" />
+-          <option name="name" value="Galaxy Tab S8 Ultra" />
+-          <option name="screenDensity" value="320" />
+-          <option name="screenX" value="1848" />
+-          <option name="screenY" value="2960" />
+-        </PersistentDeviceSelectionData>
+-        <PersistentDeviceSelectionData>
+-          <option name="api" value="34" />
+-          <option name="brand" value="samsung" />
+-          <option name="codename" value="gts8wifi" />
+-          <option name="formFactor" value="Tablet" />
+-          <option name="id" value="gts8wifi" />
+-          <option name="labId" value="google" />
+-          <option name="manufacturer" value="Samsung" />
+-          <option name="name" value="Galaxy Tab S8" />
+-          <option name="screenDensity" value="274" />
+-          <option name="screenX" value="1600" />
+-          <option name="screenY" value="2560" />
+-        </PersistentDeviceSelectionData>
+-        <PersistentDeviceSelectionData>
+-          <option name="api" value="34" />
+-          <option name="brand" value="samsung" />
+-          <option name="codename" value="gts9fe" />
+-          <option name="id" value="gts9fe" />
+-          <option name="labId" value="google" />
+-          <option name="manufacturer" value="Samsung" />
+-          <option name="name" value="Galaxy Tab S9 FE 5G" />
+-          <option name="screenDensity" value="280" />
+-          <option name="screenX" value="1440" />
+-          <option name="screenY" value="2304" />
+-        </PersistentDeviceSelectionData>
+-        <PersistentDeviceSelectionData>
+-          <option name="api" value="34" />
+-          <option name="brand" value="samsung" />
+-          <option name="codename" value="gts9wifi" />
+-          <option name="id" value="gts9wifi" />
+-          <option name="labId" value="google" />
+-          <option name="manufacturer" value="Samsung" />
+-          <option name="name" value="SM-X710" />
+-          <option name="screenDensity" value="340" />
+-          <option name="screenX" value="1600" />
+-          <option name="screenY" value="2560" />
+-        </PersistentDeviceSelectionData>
+-        <PersistentDeviceSelectionData>
+-          <option name="api" value="34" />
+-          <option name="brand" value="google" />
+-          <option name="codename" value="husky" />
+-          <option name="id" value="husky" />
+-          <option name="labId" value="google" />
+-          <option name="manufacturer" value="Google" />
+-          <option name="name" value="Pixel 8 Pro" />
+-          <option name="screenDensity" value="390" />
+-          <option name="screenX" value="1008" />
+-          <option name="screenY" value="2244" />
+-        </PersistentDeviceSelectionData>
+-        <PersistentDeviceSelectionData>
+-          <option name="api" value="35" />
+-          <option name="brand" value="google" />
+-          <option name="codename" value="husky" />
+-          <option name="id" value="husky" />
+-          <option name="labId" value="google" />
+-          <option name="manufacturer" value="Google" />
+-          <option name="name" value="Pixel 8 Pro" />
+-          <option name="screenDensity" value="390" />
+-          <option name="screenX" value="1008" />
+-          <option name="screenY" value="2244" />
+-        </PersistentDeviceSelectionData>
+-        <PersistentDeviceSelectionData>
+-          <option name="api" value="30" />
+-          <option name="brand" value="motorola" />
+-          <option name="codename" value="java" />
+-          <option name="id" value="java" />
+-          <option name="labId" value="google" />
+-          <option name="manufacturer" value="Motorola" />
+-          <option name="name" value="G20" />
+-          <option name="screenDensity" value="280" />
+-          <option name="screenX" value="720" />
+-          <option name="screenY" value="1600" />
+-        </PersistentDeviceSelectionData>
+-        <PersistentDeviceSelectionData>
+-          <option name="api" value="35" />
+-          <option name="brand" value="motorola" />
+-          <option name="codename" value="kansas" />
+-          <option name="id" value="kansas" />
+-          <option name="labId" value="google" />
+-          <option name="manufacturer" value="Motorola" />
+-          <option name="name" value="moto g - 2025" />
+-          <option name="screenDensity" value="280" />
+-          <option name="screenX" value="720" />
+-          <option name="screenY" value="1604" />
+-        </PersistentDeviceSelectionData>
+-        <PersistentDeviceSelectionData>
+-          <option name="api" value="34" />
+-          <option name="brand" value="google" />
+-          <option name="codename" value="komodo" />
+-          <option name="id" value="komodo" />
+-          <option name="labId" value="google" />
+-          <option name="manufacturer" value="Google" />
+-          <option name="name" value="Pixel 9 Pro XL" />
+-          <option name="screenDensity" value="360" />
+-          <option name="screenX" value="1008" />
+-          <option name="screenY" value="2244" />
+-        </PersistentDeviceSelectionData>
+-        <PersistentDeviceSelectionData>
+-          <option name="api" value="35" />
+-          <option name="brand" value="google" />
+-          <option name="codename" value="komodo" />
+-          <option name="id" value="komodo" />
+-          <option name="labId" value="google" />
+-          <option name="manufacturer" value="Google" />
+-          <option name="name" value="Pixel 9 Pro XL" />
+-          <option name="screenDensity" value="360" />
+-          <option name="screenX" value="1008" />
+-          <option name="screenY" value="2244" />
+-        </PersistentDeviceSelectionData>
+-        <PersistentDeviceSelectionData>
+-          <option name="api" value="35" />
+-          <option name="brand" value="motorola" />
+-          <option name="codename" value="lamul" />
+-          <option name="id" value="lamul" />
+-          <option name="labId" value="google" />
+-          <option name="manufacturer" value="Motorola" />
+-          <option name="name" value="moto g05" />
+-          <option name="screenDensity" value="280" />
+-          <option name="screenX" value="720" />
+-          <option name="screenY" value="1604" />
+-        </PersistentDeviceSelectionData>
+-        <PersistentDeviceSelectionData>
+-          <option name="api" value="34" />
+-          <option name="brand" value="motorola" />
+-          <option name="codename" value="lion" />
+-          <option name="id" value="lion" />
+-          <option name="labId" value="google" />
+-          <option name="manufacturer" value="Motorola" />
+-          <option name="name" value="moto g04" />
+-          <option name="screenDensity" value="280" />
+-          <option name="screenX" value="720" />
+-          <option name="screenY" value="1612" />
+-        </PersistentDeviceSelectionData>
+-        <PersistentDeviceSelectionData>
+-          <option name="api" value="33" />
+-          <option name="brand" value="google" />
+-          <option name="codename" value="lynx" />
+-          <option name="id" value="lynx" />
+-          <option name="labId" value="google" />
+-          <option name="manufacturer" value="Google" />
+-          <option name="name" value="Pixel 7a" />
+-          <option name="screenDensity" value="420" />
+-          <option name="screenX" value="1080" />
+-          <option name="screenY" value="2400" />
+-        </PersistentDeviceSelectionData>
+-        <PersistentDeviceSelectionData>
+-          <option name="api" value="34" />
+-          <option name="brand" value="motorola" />
+-          <option name="codename" value="lyriq" />
+-          <option name="id" value="lyriq" />
+-          <option name="labId" value="google" />
+-          <option name="manufacturer" value="Motorola" />
+-          <option name="name" value="edge 40" />
+-          <option name="screenDensity" value="400" />
+-          <option name="screenX" value="1080" />
+-          <option name="screenY" value="2400" />
+-        </PersistentDeviceSelectionData>
+-        <PersistentDeviceSelectionData>
+-          <option name="api" value="34" />
+-          <option name="brand" value="motorola" />
+-          <option name="codename" value="manaus" />
+-          <option name="id" value="manaus" />
+-          <option name="labId" value="google" />
+-          <option name="manufacturer" value="Motorola" />
+-          <option name="name" value="edge 40 neo" />
+-          <option name="screenDensity" value="400" />
+-          <option name="screenX" value="1080" />
+-          <option name="screenY" value="2400" />
+-        </PersistentDeviceSelectionData>
+-        <PersistentDeviceSelectionData>
+-          <option name="api" value="33" />
+-          <option name="brand" value="motorola" />
+-          <option name="codename" value="maui" />
+-          <option name="id" value="maui" />
+-          <option name="labId" value="google" />
+-          <option name="manufacturer" value="Motorola" />
+-          <option name="name" value="moto g play - 2023" />
+-          <option name="screenDensity" value="280" />
+-          <option name="screenX" value="720" />
+-          <option name="screenY" value="1600" />
+-        </PersistentDeviceSelectionData>
+-        <PersistentDeviceSelectionData>
+-          <option name="api" value="36" />
+-          <option name="brand" value="google" />
+-          <option name="codename" value="mustang" />
+-          <option name="id" value="mustang" />
+-          <option name="labId" value="google" />
+-          <option name="manufacturer" value="Google" />
+-          <option name="name" value="Pixel 10 Pro XL" />
+-          <option name="screenDensity" value="390" />
+-          <option name="screenX" value="1080" />
+-          <option name="screenY" value="2404" />
+-        </PersistentDeviceSelectionData>
+-        <PersistentDeviceSelectionData>
+-          <option name="api" value="34" />
+-          <option name="brand" value="samsung" />
+-          <option name="codename" value="o1q" />
+-          <option name="id" value="o1q" />
+-          <option name="labId" value="google" />
+-          <option name="manufacturer" value="Samsung" />
+-          <option name="name" value="Galaxy S21" />
+-          <option name="screenDensity" value="421" />
+-          <option name="screenX" value="1080" />
+-          <option name="screenY" value="2400" />
+-        </PersistentDeviceSelectionData>
+-        <PersistentDeviceSelectionData>
+-          <option name="api" value="35" />
+-          <option name="brand" value="samsung" />
+-          <option name="codename" value="o1q" />
+-          <option name="id" value="o1q" />
+-          <option name="labId" value="google" />
+-          <option name="manufacturer" value="Samsung" />
+-          <option name="name" value="Galaxy S21" />
+-          <option name="screenDensity" value="421" />
+-          <option name="screenX" value="1080" />
+-          <option name="screenY" value="2400" />
+-        </PersistentDeviceSelectionData>
+-        <PersistentDeviceSelectionData>
+-          <option name="api" value="31" />
+-          <option name="brand" value="google" />
+-          <option name="codename" value="oriole" />
+-          <option name="id" value="oriole" />
+-          <option name="labId" value="google" />
+-          <option name="manufacturer" value="Google" />
+-          <option name="name" value="Pixel 6" />
+-          <option name="screenDensity" value="420" />
+-          <option name="screenX" value="1080" />
+-          <option name="screenY" value="2400" />
+-        </PersistentDeviceSelectionData>
+-        <PersistentDeviceSelectionData>
+-          <option name="api" value="35" />
+-          <option name="brand" value="samsung" />
+-          <option name="codename" value="p3q" />
+-          <option name="id" value="p3q" />
+-          <option name="labId" value="google" />
+-          <option name="manufacturer" value="Samsung" />
+-          <option name="name" value="Galaxy S21 Ultra" />
+-          <option name="screenDensity" value="600" />
+-          <option name="screenX" value="1440" />
+-          <option name="screenY" value="3200" />
+-        </PersistentDeviceSelectionData>
+-        <PersistentDeviceSelectionData>
+-          <option name="api" value="36" />
+-          <option name="brand" value="samsung" />
+-          <option name="codename" value="pa2q" />
+-          <option name="id" value="pa2q" />
+-          <option name="labId" value="google" />
+-          <option name="manufacturer" value="Samsung" />
+-          <option name="name" value="S25+" />
+-          <option name="screenDensity" value="450" />
+-          <option name="screenX" value="1080" />
+-          <option name="screenY" value="2340" />
+-        </PersistentDeviceSelectionData>
+-        <PersistentDeviceSelectionData>
+-          <option name="api" value="36" />
+-          <option name="brand" value="samsung" />
+-          <option name="codename" value="pa2qxxx" />
+-          <option name="id" value="pa2qxxx" />
+-          <option name="labId" value="google" />
+-          <option name="manufacturer" value="Samsung" />
+-          <option name="name" value="Galaxy S25+" />
+-          <option name="screenDensity" value="450" />
+-          <option name="screenX" value="1080" />
+-          <option name="screenY" value="2340" />
+-        </PersistentDeviceSelectionData>
+-        <PersistentDeviceSelectionData>
+-          <option name="api" value="35" />
+-          <option name="brand" value="samsung" />
+-          <option name="codename" value="pa3q" />
+-          <option name="id" value="pa3q" />
+-          <option name="labId" value="google" />
+-          <option name="manufacturer" value="Samsung" />
+-          <option name="name" value="Galaxy S25 Ultra" />
+-          <option name="screenDensity" value="450" />
+-          <option name="screenX" value="1080" />
+-          <option name="screenY" value="2340" />
+-        </PersistentDeviceSelectionData>
+-        <PersistentDeviceSelectionData>
+-          <option name="api" value="36" />
+-          <option name="brand" value="samsung" />
+-          <option name="codename" value="pa3q" />
+-          <option name="id" value="pa3q" />
+-          <option name="labId" value="google" />
+-          <option name="manufacturer" value="Samsung" />
+-          <option name="name" value="Galaxy S25 Ultra" />
+-          <option name="screenDensity" value="450" />
+-          <option name="screenX" value="1080" />
+-          <option name="screenY" value="2340" />
+-        </PersistentDeviceSelectionData>
+-        <PersistentDeviceSelectionData>
+-          <option name="api" value="33" />
+-          <option name="brand" value="google" />
+-          <option name="codename" value="panther" />
+-          <option name="id" value="panther" />
+-          <option name="labId" value="google" />
+-          <option name="manufacturer" value="Google" />
+-          <option name="name" value="Pixel 7" />
+-          <option name="screenDensity" value="420" />
+-          <option name="screenX" value="1080" />
+-          <option name="screenY" value="2400" />
+-        </PersistentDeviceSelectionData>
+-        <PersistentDeviceSelectionData>
+-          <option name="api" value="35" />
+-          <option name="brand" value="samsung" />
+-          <option name="codename" value="psq" />
+-          <option name="id" value="psq" />
+-          <option name="labId" value="google" />
+-          <option name="manufacturer" value="Samsung" />
+-          <option name="name" value="Galaxy S25 Edge" />
+-          <option name="screenDensity" value="450" />
+-          <option name="screenX" value="1440" />
+-          <option name="screenY" value="3120" />
+-        </PersistentDeviceSelectionData>
+-        <PersistentDeviceSelectionData>
+-          <option name="api" value="34" />
+-          <option name="brand" value="samsung" />
+-          <option name="codename" value="q5q" />
+-          <option name="id" value="q5q" />
+-          <option name="labId" value="google" />
+-          <option name="manufacturer" value="Samsung" />
+-          <option name="name" value="Galaxy Z Fold5" />
+-          <option name="screenDensity" value="420" />
+-          <option name="screenX" value="1812" />
+-          <option name="screenY" value="2176" />
+-        </PersistentDeviceSelectionData>
+-        <PersistentDeviceSelectionData>
+-          <option name="api" value="34" />
+-          <option name="brand" value="samsung" />
+-          <option name="codename" value="q6q" />
+-          <option name="id" value="q6q" />
+-          <option name="labId" value="google" />
+-          <option name="manufacturer" value="Samsung" />
+-          <option name="name" value="Galaxy Z Fold6" />
+-          <option name="screenDensity" value="420" />
+-          <option name="screenX" value="1856" />
+-          <option name="screenY" value="2160" />
+-        </PersistentDeviceSelectionData>
+-        <PersistentDeviceSelectionData>
+-          <option name="api" value="36" />
+-          <option name="brand" value="samsung" />
+-          <option name="codename" value="r0qcsx" />
+-          <option name="id" value="r0qcsx" />
+-          <option name="labId" value="google" />
+-          <option name="manufacturer" value="Samsung" />
+-          <option name="name" value="S22" />
+-          <option name="screenDensity" value="480" />
+-          <option name="screenX" value="1080" />
+-          <option name="screenY" value="2340" />
+-        </PersistentDeviceSelectionData>
+-        <PersistentDeviceSelectionData>
+-          <option name="api" value="30" />
+-          <option name="brand" value="google" />
+-          <option name="codename" value="r11" />
+-          <option name="formFactor" value="Wear OS" />
+-          <option name="id" value="r11" />
+-          <option name="labId" value="google" />
+-          <option name="manufacturer" value="Google" />
+-          <option name="name" value="Pixel Watch" />
+-          <option name="screenDensity" value="320" />
+-          <option name="screenX" value="384" />
+-          <option name="screenY" value="384" />
+-          <option name="type" value="WEAR_OS" />
+-        </PersistentDeviceSelectionData>
+-        <PersistentDeviceSelectionData>
+-          <option name="api" value="34" />
+-          <option name="brand" value="samsung" />
+-          <option name="codename" value="r11q" />
+-          <option name="id" value="r11q" />
+-          <option name="labId" value="google" />
+-          <option name="manufacturer" value="Samsung" />
+-          <option name="name" value="SM-S711U" />
+-          <option name="screenDensity" value="450" />
+-          <option name="screenX" value="1080" />
+-          <option name="screenY" value="2340" />
+-        </PersistentDeviceSelectionData>
+-        <PersistentDeviceSelectionData>
+-          <option name="api" value="36" />
+-          <option name="brand" value="samsung" />
+-          <option name="codename" value="r11s" />
+-          <option name="id" value="r11s" />
+-          <option name="labId" value="google" />
+-          <option name="manufacturer" value="Samsung" />
+-          <option name="name" value="SM-S711N" />
+-          <option name="screenDensity" value="450" />
+-          <option name="screenX" value="1080" />
+-          <option name="screenY" value="2340" />
+-        </PersistentDeviceSelectionData>
+-        <PersistentDeviceSelectionData>
+-          <option name="api" value="33" />
+-          <option name="brand" value="samsung" />
+-          <option name="codename" value="r8q" />
+-          <option name="id" value="r8q" />
+-          <option name="labId" value="google" />
+-          <option name="manufacturer" value="Samsung" />
+-          <option name="name" value="Galaxy S20 FE 5G" />
+-          <option name="screenDensity" value="480" />
+-          <option name="screenX" value="1080" />
+-          <option name="screenY" value="2400" />
+-        </PersistentDeviceSelectionData>
+-        <PersistentDeviceSelectionData>
+-          <option name="api" value="36" />
+-          <option name="brand" value="samsung" />
+-          <option name="codename" value="r9q" />
+-          <option name="id" value="r9q" />
+-          <option name="labId" value="google" />
+-          <option name="manufacturer" value="Samsung" />
+-          <option name="name" value="Galaxy S21 FE 5G" />
+-          <option name="screenDensity" value="480" />
+-          <option name="screenX" value="1080" />
+-          <option name="screenY" value="2340" />
+-        </PersistentDeviceSelectionData>
+-        <PersistentDeviceSelectionData>
+-          <option name="api" value="36" />
+-          <option name="brand" value="samsung" />
+-          <option name="codename" value="r9q-SM-G990U" />
+-          <option name="id" value="r9q-SM-G990U" />
+-          <option name="labId" value="google" />
+-          <option name="manufacturer" value="Samsung" />
+-          <option name="name" value="Galaxy S21 FE 5G" />
+-          <option name="screenDensity" value="480" />
+-          <option name="screenX" value="1080" />
+-          <option name="screenY" value="2340" />
+-        </PersistentDeviceSelectionData>
+-        <PersistentDeviceSelectionData>
+-          <option name="api" value="36" />
+-          <option name="brand" value="google" />
+-          <option name="codename" value="rango" />
+-          <option name="id" value="rango" />
+-          <option name="labId" value="google" />
+-          <option name="manufacturer" value="Google" />
+-          <option name="name" value="Pixel 10 Pro Fold" />
+-          <option name="screenDensity" value="390" />
+-          <option name="screenX" value="2076" />
+-          <option name="screenY" value="2152" />
+-        </PersistentDeviceSelectionData>
+-        <PersistentDeviceSelectionData>
+-          <option name="api" value="30" />
+-          <option name="brand" value="google" />
+-          <option name="codename" value="redfin" />
+-          <option name="id" value="redfin" />
+-          <option name="labId" value="google" />
+-          <option name="manufacturer" value="Google" />
+-          <option name="name" value="Pixel 5" />
+-          <option name="screenDensity" value="440" />
+-          <option name="screenX" value="1080" />
+-          <option name="screenY" value="2340" />
+-          <option name="tags">
+-            <list>
+-              <option value="default" />
+-            </list>
+-          </option>
+-        </PersistentDeviceSelectionData>
+-        <PersistentDeviceSelectionData>
+-          <option name="api" value="34" />
+-          <option name="brand" value="google" />
+-          <option name="codename" value="shiba" />
+-          <option name="id" value="shiba" />
+-          <option name="labId" value="google" />
+-          <option name="manufacturer" value="Google" />
+-          <option name="name" value="Pixel 8" />
+-          <option name="screenDensity" value="420" />
+-          <option name="screenX" value="1080" />
+-          <option name="screenY" value="2400" />
+-        </PersistentDeviceSelectionData>
+-        <PersistentDeviceSelectionData>
+-          <option name="api" value="34" />
+-          <option name="brand" value="samsung" />
+-          <option name="codename" value="t2q" />
+-          <option name="id" value="t2q" />
+-          <option name="labId" value="google" />
+-          <option name="manufacturer" value="Samsung" />
+-          <option name="name" value="Galaxy S21 Plus" />
+-          <option name="screenDensity" value="394" />
+-          <option name="screenX" value="1080" />
+-          <option name="screenY" value="2400" />
+-        </PersistentDeviceSelectionData>
+-        <PersistentDeviceSelectionData>
+-          <option name="api" value="35" />
+-          <option name="brand" value="samsung" />
+-          <option name="codename" value="t2q" />
+-          <option name="id" value="t2q" />
+-          <option name="labId" value="google" />
+-          <option name="manufacturer" value="Samsung" />
+-          <option name="name" value="Galaxy S21 Plus" />
+-          <option name="screenDensity" value="394" />
+-          <option name="screenX" value="1080" />
+-          <option name="screenY" value="2400" />
+-        </PersistentDeviceSelectionData>
+-        <PersistentDeviceSelectionData>
+-          <option name="api" value="33" />
+-          <option name="brand" value="google" />
+-          <option name="codename" value="tangorpro" />
+-          <option name="formFactor" value="Tablet" />
+-          <option name="id" value="tangorpro" />
+-          <option name="labId" value="google" />
+-          <option name="manufacturer" value="Google" />
+-          <option name="name" value="Pixel Tablet" />
+-          <option name="screenDensity" value="320" />
+-          <option name="screenX" value="1600" />
+-          <option name="screenY" value="2560" />
+-        </PersistentDeviceSelectionData>
+-        <PersistentDeviceSelectionData>
+-          <option name="api" value="35" />
+-          <option name="brand" value="google" />
+-          <option name="codename" value="tegu" />
+-          <option name="id" value="tegu" />
+-          <option name="labId" value="google" />
+-          <option name="manufacturer" value="Google" />
+-          <option name="name" value="Pixel 9a" />
+-          <option name="screenDensity" value="420" />
+-          <option name="screenX" value="1080" />
+-          <option name="screenY" value="2424" />
+-        </PersistentDeviceSelectionData>
+-        <PersistentDeviceSelectionData>
+-          <option name="api" value="34" />
+-          <option name="brand" value="google" />
+-          <option name="codename" value="tokay" />
+-          <option name="default" value="true" />
+-          <option name="id" value="tokay" />
+-          <option name="labId" value="google" />
+-          <option name="manufacturer" value="Google" />
+-          <option name="name" value="Pixel 9" />
+-          <option name="screenDensity" value="420" />
+-          <option name="screenX" value="1080" />
+-          <option name="screenY" value="2424" />
+-          <option name="tags">
+-            <list>
+-              <option value="dda-default" />
+-            </list>
+-          </option>
+-        </PersistentDeviceSelectionData>
+-        <PersistentDeviceSelectionData>
+-          <option name="api" value="35" />
+-          <option name="brand" value="google" />
+-          <option name="codename" value="tokay" />
+-          <option name="default" value="true" />
+-          <option name="id" value="tokay" />
+-          <option name="labId" value="google" />
+-          <option name="manufacturer" value="Google" />
+-          <option name="name" value="Pixel 9" />
+-          <option name="screenDensity" value="420" />
+-          <option name="screenX" value="1080" />
+-          <option name="screenY" value="2424" />
+-          <option name="tags">
+-            <list>
+-              <option value="dda-default" />
+-            </list>
+-          </option>
+-        </PersistentDeviceSelectionData>
+-        <PersistentDeviceSelectionData>
+-          <option name="api" value="36" />
+-          <option name="brand" value="google" />
+-          <option name="codename" value="tokay" />
+-          <option name="default" value="true" />
+-          <option name="id" value="tokay" />
+-          <option name="labId" value="google" />
+-          <option name="manufacturer" value="Google" />
+-          <option name="name" value="Pixel 9" />
+-          <option name="screenDensity" value="420" />
+-          <option name="screenX" value="1080" />
+-          <option name="screenY" value="2424" />
+-          <option name="tags">
+-            <list>
+-              <option value="dda-default" />
+-            </list>
+-          </option>
+-        </PersistentDeviceSelectionData>
+-        <PersistentDeviceSelectionData>
+-          <option name="api" value="34" />
+-          <option name="brand" value="samsung" />
+-          <option name="codename" value="xcover7" />
+-          <option name="id" value="xcover7" />
+-          <option name="labId" value="google" />
+-          <option name="manufacturer" value="Samsung" />
+-          <option name="name" value="SM-G556B" />
+-          <option name="screenDensity" value="450" />
+-          <option name="screenX" value="1080" />
+-          <option name="screenY" value="2408" />
+-        </PersistentDeviceSelectionData>
+-        <PersistentDeviceSelectionData>
+-          <option name="api" value="33" />
+-          <option name="brand" value="samsung" />
+-          <option name="codename" value="y2q" />
+-          <option name="id" value="y2q" />
+-          <option name="labId" value="google" />
+-          <option name="manufacturer" value="Samsung" />
+-          <option name="name" value="S20 Plus 5G" />
+-          <option name="screenDensity" value="600" />
+-          <option name="screenX" value="1440" />
+-          <option name="screenY" value="3200" />
+-        </PersistentDeviceSelectionData>
+-      </list>
+-    </option>
+-  </component>
+-</project>
+\ No newline at end of file
+Index: overlay/packages/apps/Camera2/res/values/config.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/overlay/packages/apps/Camera2/res/values/config.xml b/overlay/packages/apps/Camera2/res/values/config.xml
+deleted file mode 100644
+--- a/overlay/packages/apps/Camera2/res/values/config.xml	(revision 385350ee67a1c5c3bf794a688545f58817a4ebda)
++++ /dev/null	(revision 385350ee67a1c5c3bf794a688545f58817a4ebda)
+@@ -1,23 +0,0 @@
+-<?xml version="1.0" encoding="utf-8"?>
+-<!--
+-/*
+-** Copyright 2011, The CyanogenMod Project
+-**
+-** Licensed under the Apache License, Version 2.0 (the "License");
+-** you may not use this file except in compliance with the License.
+-** You may obtain a copy of the License at
+-**
+-**     http://www.apache.org/licenses/LICENSE-2.0
+-**
+-** Unless required by applicable law or agreed to in writing, software
+-** distributed under the License is distributed on an "AS IS" BASIS,
+-** WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+-** See the License for the specific language governing permissions and
+-** limitations under the License.
+-*/
+--->
+-
+-<resources>
+-    <!-- Force use of profile video size -->
+-    <bool name="useProfileVideoSize">true</bool>
+-</resources>
+Index: vendorsetup.sh
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/vendorsetup.sh b/vendorsetup.sh
+deleted file mode 100644
+--- a/vendorsetup.sh	(revision 385350ee67a1c5c3bf794a688545f58817a4ebda)
++++ /dev/null	(revision 385350ee67a1c5c3bf794a688545f58817a4ebda)
+@@ -1,3 +0,0 @@
+-add_lunch_combo lineage_p4wifi-user
+-add_lunch_combo lineage_p4wifi-userdebug
+-add_lunch_combo lineage_p4wifi-eng
+Index: .idea/deviceManager.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/deviceManager.xml b/.idea/deviceManager.xml
+deleted file mode 100644
+--- a/.idea/deviceManager.xml	(revision 385350ee67a1c5c3bf794a688545f58817a4ebda)
++++ /dev/null	(revision 385350ee67a1c5c3bf794a688545f58817a4ebda)
+@@ -1,13 +0,0 @@
+-<?xml version="1.0" encoding="UTF-8"?>
+-<project version="4">
+-  <component name="DeviceTable">
+-    <option name="columnSorters">
+-      <list>
+-        <ColumnSorterState>
+-          <option name="column" value="Name" />
+-          <option name="order" value="ASCENDING" />
+-        </ColumnSorterState>
+-      </list>
+-    </option>
+-  </component>
+-</project>
+\ No newline at end of file
+diff --git a/rootdir/etc/init.modem.rc b/rootdir/etc/init.modem.rc
+deleted file mode 100644

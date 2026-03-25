@@ -1,0 +1,22 @@
+<changelist name="Uncommitted_changes_before_Update_at_25-3-2026_15_58_[Changes]" date="1774450720314" recycled="true" deleted="true">
+  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_25-3-2026_15_58_[Changes]/shelved.patch" />
+  <option name="DESCRIPTION" value="Uncommitted changes before Update at 25-3-2026 15:58 [Changes]" />
+  <binary>
+    <option name="BEFORE_PATH" value="modules/cifs.ko" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="modules/md4.ko" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="modules/dhd.ko" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="modules/nls_utf8.ko" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="modules/ntfs.ko" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="kernel" />
+  </binary>
+</changelist>
