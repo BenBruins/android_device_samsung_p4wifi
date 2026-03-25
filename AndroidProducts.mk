@@ -14,7 +14,5 @@
 # limitations under the License.
 #
 
-make
 PRODUCT_MAKEFILES := \
-    $(LOCAL_DIR)/p4wifi.mk \
-    $(LOCAL_DIR)/lineage_p4wifi.mk
+    $(LOCAL_DIR)/p4wifi.mk \$(LOCAL_DIR)/lineage_p4wifi.mk
