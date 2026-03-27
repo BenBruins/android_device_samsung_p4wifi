@@ -4,45 +4,7 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="bb0852fd-baa1-44f2-98f5-d5f449362313" name="Changes" comment="updates">
-      <change beforePath="$PROJECT_DIR$/.github/workflows/build_rom.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/android_device_samsung_p4wifi.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/caches/deviceStreaming.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/deviceManager.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Android.mk" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AndroidProducts.mk" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/BoardConfig.mk" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/CleanSpec.mk" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/README" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/device.mk" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/extract-files.sh" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/gpsconfig.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/kernel" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lineage_p4wifi.mk" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/modules/cifs.ko" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/modules/dhd.ko" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/modules/md4.ko" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/modules/nls_utf8.ko" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/modules/ntfs.ko" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/overlay/frameworks/base/core/res/res/values/config.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/overlay/packages/apps/Camera2/res/values/config.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/overlay/packages/apps/Torch/res/values/config.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/p4wifi.mk" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/p4wifi_nougat_manifest.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/proprietary-files.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/rootdir/Android.mk" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/rootdir/etc/init.modem.rc" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/sepolicy/device.te" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/sepolicy/file.te" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/sepolicy/file_contexts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/setup-makefiles.sh" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/system.prop" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendorsetup.sh" beforeDir="false" />
-    </list>
+    <list default="true" id="bb0852fd-baa1-44f2-98f5-d5f449362313" name="Changes" comment="updates" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
